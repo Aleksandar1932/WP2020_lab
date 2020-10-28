@@ -1,0 +1,64 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:td="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>Balloon Order page - Balloon Size</title>
+    <style type="text/css">
+        body {
+            width: 800px;
+            margin: auto;
+        }
+
+        table {
+            width: 100%;
+        }
+
+        table, td, th {
+            border: 1px solid black;
+            padding: 3px 2px;
+        }
+
+        section {
+            float: left;
+            margin: 0 1.5%;
+            width: 63%;
+        }
+
+        aside {
+            float: right;
+            margin: 0 1.5%;
+            width: 30%;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <h1>Balloon Order page - Select Balloon Size </h1>
+</header>
+<section>
+    <h2>Choose balloon size:</h2>
+    <form method="POST" th:action="@{/balloonOrder}">
+        <input type="radio" name="size" value="Small"> Small <br/>
+        <input type="radio" name="size" value="Medium"> Medium <br/>
+        <input type="radio" name="size" value="Big"> Big <br/>
+        <input type="radio" name="size" value="Extra Big"> Extra Big <br/>
+        <br/>
+        <input type="submit" value="Submit">
+    </form>
+
+</section>
+<aside>
+    <table>
+        <tr>
+            <th colspan="2">
+                Your Order Status
+            </th>
+        </tr>
+        <tr>
+            <td><b>Balloon Type: </b> <span th:text="${session.color}"></span></td>
+
+        </tr>
+    </table>
+</aside>
+
+</body>
+</html>
