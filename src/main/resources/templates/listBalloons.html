@@ -2,6 +2,7 @@
 <head>
     <meta charset="utf-8">
     <title>Balloon Order page - Welcome and choose a Balloon</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
     <style type="text/css">
         body {
             width: 800px;
@@ -10,9 +11,9 @@
     </style>
 </head>
 <body>
-<header>
+<div class="jumbotron">
     <h1>Welcome to our Balloon Shop App</h1>
-</header>
+</div>
 <main>
     <h2>All balloons:</h2>
     <ul>
@@ -30,10 +31,12 @@
         <input type="radio" name="color" value="Green Balloon"> Green Balloon<br/>
         <input type="radio" name="color" value="Yellow Balloon"> Yellow Balloon<br/>
         <input type="radio" name="color" value="Blue Balloon"> Blue Balloon<br/>
-        <input type='submit' value='Submit'/>
+<!--        <input type='submit' value='Submit'/>-->
+        <button class="btn btn-success" type="submit">Submit</button>
     </form>
     <br/>
 
 </main>
 </body>
+<div th:replace="fragments/footer :: footer">...</div>
 </html>

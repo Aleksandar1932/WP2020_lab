@@ -2,28 +2,29 @@
 <head>
     <meta charset="utf-8">
     <title>WP lab - Confirmation Info</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
     <style type="text/css">
         body {
             width: 800px;
             margin: auto;
         }
 
-        table {
-            width: 100%;
-        }
+        /*table {*/
+        /*    width: 100%;*/
+        /*}*/
 
-        table, td, th {
-            border: 1px solid black;
-            padding: 3px 2px;
-        }
+        /*table, td, th {*/
+        /*    border: 1px solid black;*/
+        /*    padding: 3px 2px;*/
+        /*}*/
     </style>
 </head>
 <body>
 <section>
-    <header>
+    <div class="jumbotron">
         <h1>Balloon Order page - Order confirmation </h1>
-    </header>
-    <table>
+    </div>
+    <table class="table">
         <tr>
             <th colspan="2">
                 Your Order Status
@@ -55,10 +56,12 @@
         </tr>
     </table>
     <div>
-        <a href="/logout">Log out</a>
+        <a class="btn btn-danger" href="/logout">Log out</a>
     </div>
 
 
 </section>
+<div th:replace="fragments/footer :: footer">...</div>
 </body>
+
 </html>

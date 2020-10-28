@@ -2,20 +2,23 @@
 <head>
     <meta charset="utf-8">
     <title>WP lab - Delivery Info</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+          integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+
     <style type="text/css">
         body {
             width: 800px;
             margin: auto;
         }
 
-        table {
-            width: 100%;
-        }
+        /*table {*/
+        /*    width: 100%;*/
+        /*}*/
 
-        table, td, th {
-            border: 1px solid black;
-            padding: 3px 2px;
-        }
+        /*table, td, th {*/
+        /*    border: 1px solid black;*/
+        /*    padding: 3px 2px;*/
+        /*}*/
 
         section {
             float: left;
@@ -31,9 +34,10 @@
     </style>
 </head>
 <body>
-<header>
+<div class="jumbotron">
     <h1>Balloon Order page - Delivery information </h1>
-</header>
+</div>
+
 <section>
 
     <form method="POST" th:action="@{/confirmationInfo}">
@@ -41,12 +45,13 @@
         <input type="text" id="clientName" name="clientName"/><br/>
         <label for="clientAddress">Delivery Address:</label><br/>
         <textarea cols="40" rows="3" id="clientAddress" name="clientAddress"></textarea><br/>
-        <input type="submit" value="Submit">
+        <button class="btn btn-success" type="submit">Submit</button>
     </form>
 
 </section>
+
 <aside>
-    <table>
+    <table class="table">
         <tr>
             <th colspan="2">
                 Your Order Status
@@ -64,5 +69,8 @@
         </tr>
     </table>
 </aside>
+
+
 </body>
+
 </html>
