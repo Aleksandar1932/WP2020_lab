@@ -23,6 +23,11 @@ public class SelectBalloonServlet extends HttpServlet {
 
         String color = req.getParameter("color");
 
+        if(color == null || color.isEmpty()){
+            resp.sendRedirect("/");
+            return;
+        }
+
         req.getSession().setAttribute("color", color);
 
         springTemplateEngine.process("selectBalloonSize", context, resp.getWriter());
