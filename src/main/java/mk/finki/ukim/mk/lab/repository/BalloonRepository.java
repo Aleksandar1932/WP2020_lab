@@ -16,6 +16,6 @@ public class BalloonRepository {
     }
 
     public List<Balloon> findAllByNameOrDescription(String text) {
-        return DataHolder.balloonList.stream().filter(b -> b.getName().equals(text) || b.getDescription().equals(text)).collect(Collectors.toList());
+        return DataHolder.balloonList.stream().filter(b -> b.getName().contains(text) || b.getDescription().contains(text)).collect(Collectors.toList());
     }
 }

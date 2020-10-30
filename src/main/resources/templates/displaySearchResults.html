@@ -1,0 +1,34 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>Balloon Order page - Search query results</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+          integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <style type="text/css">
+        body {
+            width: 800px;
+            margin: auto;
+        }
+    </style>
+</head>
+<body>
+<div class="jumbotron">
+    <h1>Search query results</h1>
+</div>
+<main>
+    <h2>Search query results:</h2>
+    <ul>
+        <li th:each="balloon : ${foundBalloons}">
+            <th:block th:text="${balloon.name}"/>
+            <th:block th:text="${balloon.description}"/>
+
+        </li>
+    </ul>
+
+    <a href="/" class="btn btn-primary">Back</a>
+
+
+</main>
+</body>
+<div th:replace="fragments/footer :: footer">...</div>
+</html>
