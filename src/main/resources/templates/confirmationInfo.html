@@ -56,6 +56,15 @@
         </tr>
     </table>
     <div>
+
+<!--        balloonColor, balloonSize, clientName, address-->
+        '/orders/place?balloonColor='+${session.color}'?balloonSize=' + ${session.balloonSize}' ?clientName=${session.clientName}?address=${session.deliveryAddress}'
+
+<!--        <a class="btn btn-danger" th:href="/orders/place?balloonColor=${session.color}?balloonSize=${session.balloonSize}?clientName=${session.clientName}?address=${session.deliveryAddress}">Log out</a>-->
+        <a class="btn btn-danger" th:href="/orders/place?balloonColor=${session.color}?balloonSize=${session.balloonSize}?clientName=${session.clientName}?address=${session.deliveryAddress}">Place order</a>
+    </div>
+
+    <div>
         <a class="btn btn-danger" href="/logout">Log out</a>
     </div>
 

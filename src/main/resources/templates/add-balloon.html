@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>Balloon Order page - Welcome and choose a Balloon</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+            integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+            crossorigin="anonymous"></script>
+    <style type="text/css">
+        body {
+            width: 800px;
+            margin: auto;
+        }
+    </style>
+</head>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">Navbar</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02"
+            aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+        <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+
+            <li class="nav-item">
+                <a class="nav-link" href="/balloons">Home</a>
+            </li>
+
+            <li class="nav-item ">
+                <a class="nav-link" href="/orders">My Orders </a>
+            </li>
+
+            <li class="nav-item active">
+                <a class="nav-link" href="/balloons/add-form">Add Balloon <span class="sr-only">(current)</span></a>
+            </li>
+        </ul>
+
+        <form th:method="POST" th:action="@{/searchBalloon}">
+            <input type="text" name="queryString"/>
+            <button class="btn btn-primary" type="submit">Search</button>
+        </form>
+
+        <!--        <form class="form-inline my-2 my-lg-0">-->
+        <!--            <input type="text" name="queryString"/>-->
+        <!--            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>-->
+        <!--        </form>-->
+    </div>
+</nav>
+
+<body>
+
+<div class="jumbotron text-center" th:if="${balloon} == null">
+    <h1>Add New Balloon</h1>
+</div>
+
+<div class="jumbotron text-center" th:if="${balloon} != null">
+    <h1>Edit an existing Balloon</h1>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-5">
+            <form action="/balloons/add" method="POST">
+                <div class="form-group">
+                    <label for="name">Balloon Name</label>
+
+                    <input type="text" class="form-control" id="name" name="name"
+                           th:value="(${balloon != null}) ? ${balloon.getName()} : ''"
+                           required
+                           placeholder="Enter the balloon's name">
+                </div>
+
+                <div class="form-group">
+                    <label for="description">Balloon Description</label>
+
+                    <input type="text" class="form-control" id="description" name="description"
+                           th:value="(${balloon != null}) ? ${balloon.getDescription()} : ''"
+                           required
+                           placeholder="Enter the balloon's description">
+                </div>
+
+
+                <div class="form-group">
+                    <label for="manufacturerId">Balloon Manufacturer</label>
+
+                    <select id="manufacturerId" name="manufacturerId" class="form-control">
+                        <option th:if="${balloon} != null"
+                                th:each="man : ${manufacturers}"
+                                th:selected="${balloon.getManufacturer() != null && balloon.getManufacturer().getId() == man.getId()}"
+                                th:text="${man.getName()}"
+                                th:value="${man.getId()}">
+                        </option>
+
+                        <option th:if="${balloon} == null"
+                                th:each="man : ${manufacturers}"
+                                th:text="${man.getName()}"
+                                th:value="${man.getId()}">
+                        </option>
+                    </select>
+
+                </div>
+
+                <button type="submit" class="btn btn-primary">Submit</button>
+                <a type="button" class="btn btn-primary" href="/balloons">Back</a>
+            </form>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

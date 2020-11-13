@@ -1,48 +1,132 @@
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
     <title>Balloon Order page - Welcome and choose a Balloon</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
-          integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+            integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+            crossorigin="anonymous"></script>
     <style type="text/css">
         body {
             width: 800px;
             margin: auto;
         }
     </style>
+
+
 </head>
 <body>
-<div class="jumbotron">
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">Navbar</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+        <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+            <li class="nav-item active">
+                <a class="nav-link" href="/balloons">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/orders">My Orders</a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="/balloons/add-form">Add Balloon</a>
+            </li>
+        </ul>
+
+        <form th:method="POST" th:action="@{/searchBalloon}">
+            <input type="text" name="queryString"/>
+            <button class="btn btn-primary" type="submit">Search</button>
+        </form>
+
+        <!--        <form class="form-inline my-2 my-lg-0">-->
+        <!--            <input type="text" name="queryString"/>-->
+        <!--            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>-->
+        <!--        </form>-->
+    </div>
+</nav>
+
+
+<div class="jumbotron text-center">
     <h1>Welcome to our Balloon Shop App</h1>
 </div>
 <main>
     <h2>All balloons:</h2>
-    <ul>
-        <li th:each="balloon : ${balloons}">
-            <th:block th:text="${balloon.name}"/>
-            <th:block th:text="${balloon.description}"/>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th scope="col">Balloon Name</th>
+                <th scope="col">Description</th>
+                <th scope="col">Manufacturer</th>
+                <th scope="col">Actions</th>
+            </tr>
+            </thead>
 
-        </li>
-    </ul>
+            <tbody>
+            <tr th:each="balloon : ${balloons}">
+                <td th:text="${balloon.getName()}"></td>
+                <td th:text="${balloon.getDescription()}"></td>
+                <td th:text="${balloon.getManufacturer().getName()}"></td>
+                <td class="text-right">
+                    <form th:method="get" th:action="@{/balloons/delete/{id} (id=${balloon.getId()})}">
+                        <button type="submit" class="btn btn-sm btn-danger">
+                            <i class="fa fa-trash">Delete</i>
+                        </button>
+                    </form>
 
 
-    <h2>Choose balloon color:</h2>
-    <form th:method="POST" th:action="@{/selectBalloon}">
-        <input type="radio" name="color" value="Red Balloon"> Red Balloon<br/>
-        <input type="radio" name="color" value="Green Balloon"> Green Balloon<br/>
-        <input type="radio" name="color" value="Yellow Balloon"> Yellow Balloon<br/>
-        <input type="radio" name="color" value="Blue Balloon"> Blue Balloon<br/>
-        <!--        <input type='submit' value='Submit'/>-->
-        <button class="btn btn-success" type="submit">Submit</button>
-    </form>
-    <br/>
+                    <a class="btn btn-sm btn-primary"
+                       th:href="@{'/balloons/edit-form/{id}' (id=${balloon.getId()})}"> <i class="fa fa-trash">Edit</i>
+                    </a>
 
-    <h2>Search a balloon:</h2>
-    <form th:method="POST" th:action="@{/searchBalloon}">
-        <input type="text" name="queryString"/>
+                    <a class="btn btn-sm btn-warning"
+                       th:href="@{'/orders/place/{balloonId}' (balloonId=${balloon.getId()})}"> <i class="fa fa-trash">Buy</i>
+                    </a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+<!--    <div class="container">-->
+<!--        <a href="/balloons/add-form" class="btn btn-dark">Add Balloon</a>-->
+<!--    </div>-->
+    <!--    <ul>-->
+    <!--        <li th:each="balloon : ${balloons}">-->
+    <!--            <th:block th:text="${balloon.name}"/>-->
+    <!--            <th:block th:text="${balloon.description}"/> made by:-->
+    <!--            <th:block th:text="${balloon.manufacturer.getName()}"/>-->
+    <!--        </li>-->
+    <!--    </ul>-->
 
-        <button class="btn btn-primary" type="submit">Search</button>
-    </form>
+
+<!--    <h2>Choose balloon color:</h2>-->
+<!--    <form th:method="POST" th:action="@{/selectBalloon}">-->
+<!--        <input type="radio" name="color" value="Red Balloon"> Red Balloon<br/>-->
+<!--        <input type="radio" name="color" value="Green Balloon"> Green Balloon<br/>-->
+<!--        <input type="radio" name="color" value="Yellow Balloon"> Yellow Balloon<br/>-->
+<!--        <input type="radio" name="color" value="Blue Balloon"> Blue Balloon<br/>-->
+<!--        &lt;!&ndash;        <input type='submit' value='Submit'/>&ndash;&gt;-->
+<!--        <button class="btn btn-success" type="submit">Submit</button>-->
+<!--    </form>-->
+<!--    <br/>-->
+
+<!--    <h2>Search a balloon:</h2>-->
+<!--    <form th:method="POST" th:action="@{/searchBalloon}">-->
+<!--        <input type="text" name="queryString"/>-->
+
+<!--        <button class="btn btn-primary" type="submit">Search</button>-->
+<!--    </form>-->
 </main>
 </body>
 <div th:replace="fragments/footer :: footer">...</div>
