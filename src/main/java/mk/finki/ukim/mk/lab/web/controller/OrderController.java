@@ -40,7 +40,7 @@ public class OrderController {
 
 
         }
-        return "redirect:/balloons?error:NoOrders";
+        return "redirect:/balloons?error=You don't have any orders yet!";
     }
 
 

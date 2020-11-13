@@ -15,17 +15,13 @@
             integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
             crossorigin="anonymous"></script>
     <style type="text/css">
-        body {
-            width: 800px;
-            margin: auto;
-        }
     </style>
 
 
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="#">Navbar</a>
+    <a class="navbar-brand" href="#">BalloonAPP</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
@@ -61,43 +57,54 @@
     <h1>Welcome to our Balloon Shop App</h1>
 </div>
 <main>
-    <h2>All balloons:</h2>
-    <div class="table-responsive">
-        <table class="table table-striped">
-            <thead>
-            <tr>
-                <th scope="col">Balloon Name</th>
-                <th scope="col">Description</th>
-                <th scope="col">Manufacturer</th>
-                <th scope="col">Actions</th>
-            </tr>
-            </thead>
+    <div class="row justify-content-md-center">
+        <div class="col-md-8">
+            <h2>All balloons:</h2>
 
-            <tbody>
-            <tr th:each="balloon : ${balloons}">
-                <td th:text="${balloon.getName()}"></td>
-                <td th:text="${balloon.getDescription()}"></td>
-                <td th:text="${balloon.getManufacturer().getName()}"></td>
-                <td class="text-right">
-                    <form th:method="get" th:action="@{/balloons/delete/{id} (id=${balloon.getId()})}">
-                        <button type="submit" class="btn btn-sm btn-danger">
-                            <i class="fa fa-trash">Delete</i>
-                        </button>
-                    </form>
+            <div th:if="${hasError}">
+                <div th:text="${error}" class="text-danger"></div>
+            </div>
+
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th scope="col">Balloon Name</th>
+                        <th scope="col">Description</th>
+                        <th scope="col">Manufacturer</th>
+                        <th scope="col">Actions</th>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+                    <tr th:each="balloon : ${balloons}">
+                        <td th:text="${balloon.getName()}"></td>
+                        <td th:text="${balloon.getDescription()}"></td>
+                        <td th:text="${balloon.getManufacturer().getName()}"></td>
+                        <td class="text-right">
+                            <form th:method="get" th:action="@{/balloons/delete/{id} (id=${balloon.getId()})}">
+                                <button type="submit" class="btn btn-sm btn-danger">
+                                    <i class="fa fa-trash">Delete</i>
+                                </button>
+                            </form>
 
 
-                    <a class="btn btn-sm btn-primary"
-                       th:href="@{'/balloons/edit-form/{id}' (id=${balloon.getId()})}"> <i class="fa fa-trash">Edit</i>
-                    </a>
+                            <a class="btn btn-sm btn-primary"
+                               th:href="@{'/balloons/edit-form/{id}' (id=${balloon.getId()})}"> <i class="fa fa-trash">Edit</i>
+                            </a>
 
-                    <a class="btn btn-sm btn-warning"
-                       th:href="@{'/orders/place/{balloonId}' (balloonId=${balloon.getId()})}"> <i class="fa fa-trash">Buy</i>
-                    </a>
-                </td>
-            </tr>
-            </tbody>
-        </table>
+                            <a class="btn btn-sm btn-warning"
+                               th:href="@{'/orders/place/{balloonId}' (balloonId=${balloon.getId()})}"> <i class="fa fa-trash">Buy</i>
+                            </a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
+
+
 <!--    <div class="container">-->
 <!--        <a href="/balloons/add-form" class="btn btn-dark">Add Balloon</a>-->
 <!--    </div>-->

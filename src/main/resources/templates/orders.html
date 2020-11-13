@@ -15,16 +15,12 @@
             integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
             crossorigin="anonymous"></script>
     <style type="text/css">
-        body {
-            width: 800px;
-            margin: auto;
-        }
     </style>
 </head>
 <body>
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="#">Navbar</a>
+    <a class="navbar-brand" href="#">BalloonAPP</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
@@ -61,34 +57,39 @@
     <h1>Orders for user <span th:text="${orders.get(0).clientName}"></span></h1>
 </div>
 <main>
-    <h2>Your orders:</h2>
-    <div class="table-responsive">
-        <table class="table table-striped">
-            <thead>
-            <tr>
-                <th scope="col">Order Id</th>
-                <th scope="col">Balloon Name</th>
-                <th scope="col">Balloon Description</th>
-                <th scope="col">Balloon Manufacturer</th>
-                <th scope="col">Balloon Color</th>
-                <th scope="col">Balloon Size</th>
-                <th scope="col">Delivery Address</th>
-            </tr>
-            </thead>
+    <div class="row justify-content-md-center">
+        <div class="col-md-8">
+            <h2>Your orders:</h2>
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th scope="col">Order Id</th>
+                        <th scope="col">Balloon Name</th>
+                        <th scope="col">Balloon Description</th>
+                        <th scope="col">Balloon Manufacturer</th>
+                        <th scope="col">Balloon Color</th>
+                        <th scope="col">Balloon Size</th>
+                        <th scope="col">Delivery Address</th>
+                    </tr>
+                    </thead>
 
-            <tbody>
-            <tr th:each="order : ${orders}">
-                <td th:text="${order.getOrderId()}"></td>
-                <td th:text="${order.getBalloon().getName()}"></td>
-                <td th:text="${order.getBalloon().getDescription()}"></td>
-                <td th:text="${order.getBalloon().getManufacturer().getName()}"></td>
-                <td th:text="${order.getBalloonColor()}"></td>
-                <td th:text="${order.getBalloonSize()}"></td>
-                <td th:text="${order.getClientAddress()}"></td>
-            </tr>
-            </tbody>
-        </table>
+                    <tbody>
+                    <tr th:each="order : ${orders}">
+                        <td th:text="${order.getOrderId()}"></td>
+                        <td th:text="${order.getBalloon().getName()}"></td>
+                        <td th:text="${order.getBalloon().getDescription()}"></td>
+                        <td th:text="${order.getBalloon().getManufacturer().getName()}"></td>
+                        <td th:text="${order.getBalloonColor()}"></td>
+                        <td th:text="${order.getBalloonSize()}"></td>
+                        <td th:text="${order.getClientAddress()}"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
+
 
 </main>
 </body>
