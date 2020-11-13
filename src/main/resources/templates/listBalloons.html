@@ -61,6 +61,20 @@
         <div class="col-md-8">
             <h2>All balloons:</h2>
 
+            <form action="/balloons" method="GET">
+                <div class="form-group">
+                    <select id="typeToSort" name="typeToSort" class="form-control">
+                        <option
+                                th:each="type : ${allTypes}"
+                                th:text="${type}"
+                                th:value="${type}">
+                        </option>
+                    </select>
+                </div>
+                <button class="btn btn-primary" type="submit">Sort</button>
+
+            </form>
+
             <div th:if="${hasError}">
                 <div th:text="${error}" class="text-danger"></div>
             </div>
@@ -70,6 +84,7 @@
                     <thead>
                     <tr>
                         <th scope="col">Balloon Name</th>
+                        <th scope="col">Balloon Type</th>
                         <th scope="col">Description</th>
                         <th scope="col">Manufacturer</th>
                         <th scope="col">Actions</th>
@@ -79,6 +94,7 @@
                     <tbody>
                     <tr th:each="balloon : ${balloons}">
                         <td th:text="${balloon.getName()}"></td>
+                        <td th:text="${balloon.getType()}"></td>
                         <td th:text="${balloon.getDescription()}"></td>
                         <td th:text="${balloon.getManufacturer().getName()}"></td>
                         <td class="text-right">

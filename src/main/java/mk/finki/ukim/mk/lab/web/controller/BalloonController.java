@@ -2,6 +2,7 @@ package mk.finki.ukim.mk.lab.web.controller;
 
 import mk.finki.ukim.mk.lab.model.Balloon;
 import mk.finki.ukim.mk.lab.model.Manufacturer;
+import mk.finki.ukim.mk.lab.model.enumerations.BalloonType;
 import mk.finki.ukim.mk.lab.service.BalloonService;
 import mk.finki.ukim.mk.lab.service.ManufacturerService;
 import org.springframework.stereotype.Controller;
@@ -9,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -23,29 +25,45 @@ public class BalloonController {
     }
 
     @GetMapping
-    public String getBalloonsPage(@RequestParam(required = false) String error, Model model, HttpServletRequest request) {
+    public String getBalloonsPage(@RequestParam(required = false) String error, @RequestParam(required = false) String typeToSort, Model model, HttpServletRequest request) {
         if (error != null && !error.isEmpty()) {
             model.addAttribute("hasError", true);
             model.addAttribute("error", error);
         }
 
+        List<Balloon> balloonList;
+
+        if (typeToSort != null && !typeToSort.isEmpty()) {
+            BalloonType type = BalloonType.valueOf(typeToSort);
+
+            balloonList = this.balloonService.listAllSortedByType(type);
+
+        } else {
+            balloonList = this.balloonService.listAll();
+        }
+
         // Identify the user on the first entry
         request.getSession().setAttribute("user", (long) (Math.random() * 1000));
 
-        List<Balloon> balloonList = this.balloonService.listAll();
 
         model.addAttribute("balloons", balloonList);
+        model.addAttribute("allTypes", BalloonType.values());
 
         return "listBalloons";
     }
+
 
     @PostMapping("/add")
     public String saveBalloon(
             @RequestParam String name,
             @RequestParam String description,
-            @RequestParam Long manufacturerId
+            @RequestParam Long manufacturerId,
+            @RequestParam String type
     ) {
-        this.balloonService.save(name, description, manufacturerId);
+
+//        BalloonType balloonType = new BalloonType.valueOf(type);
+        BalloonType balloonType = BalloonType.valueOf(type);
+        this.balloonService.save(name, description, manufacturerId, balloonType);
 
         return "redirect:/balloons";
     }
@@ -56,6 +74,7 @@ public class BalloonController {
         List<Manufacturer> manufacturers = this.manufacturerService.findAll();
 
         model.addAttribute("manufacturers", manufacturers);
+        model.addAttribute("types", BalloonType.values());
 
         return "add-balloon";
     }
@@ -69,6 +88,7 @@ public class BalloonController {
             List<Manufacturer> manufacturers = this.manufacturerService.findAll();
 
             model.addAttribute("manufacturers", manufacturers);
+            model.addAttribute("types", BalloonType.values());
             model.addAttribute("balloon", balloon);
 
             return "add-balloon";

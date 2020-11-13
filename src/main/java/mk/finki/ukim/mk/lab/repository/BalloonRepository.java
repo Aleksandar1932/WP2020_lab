@@ -3,6 +3,7 @@ package mk.finki.ukim.mk.lab.repository;
 import mk.finki.ukim.mk.lab.booststrap.DataHolder;
 import mk.finki.ukim.mk.lab.model.Balloon;
 import mk.finki.ukim.mk.lab.model.Manufacturer;
+import mk.finki.ukim.mk.lab.model.enumerations.BalloonType;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.PostConstruct;
@@ -22,8 +23,8 @@ public class BalloonRepository {
         return DataHolder.balloonList.stream().filter(b -> b.getName().contains(text) || b.getDescription().contains(text)).collect(Collectors.toList());
     }
 
-    public Optional<Balloon> save(String name, String description, Manufacturer manufacturer) {
-        Balloon balloon = new Balloon(name, description, manufacturer);
+    public Optional<Balloon> save(String name, String description, Manufacturer manufacturer, BalloonType type) {
+        Balloon balloon = new Balloon(name, description, manufacturer, type);
 
         DataHolder.balloonList.removeIf(balloon1 -> balloon1.getName().equals(name));
 

@@ -107,6 +107,26 @@
 
                 </div>
 
+                <div class="form-group">
+                    <label for="manufacturerId">Balloon Type</label>
+
+                    <select id="type" name="type" class="form-control">
+                        <option th:if="${balloon} != null"
+                                th:each="type : ${types}"
+                                th:selected="${balloon.getType() != null && balloon.getType().name() == type.name()}"
+                                th:text="${type}"
+                                th:value="${type}">
+                        </option>
+
+                        <option th:if="${balloon} == null"
+                                th:each="type : ${types}"
+                                th:text="${type}"
+                                th:value="${type}">
+                        </option>
+                    </select>
+
+                </div>
+
                 <button type="submit" class="btn btn-primary">Submit</button>
                 <a type="button" class="btn btn-primary" href="/balloons">Back</a>
             </form>
