@@ -1,4 +1,4 @@
-package mk.finki.ukim.mk.lab.repository;
+package mk.finki.ukim.mk.lab.repository.impl;
 
 import mk.finki.ukim.mk.lab.booststrap.DataHolder;
 import mk.finki.ukim.mk.lab.model.Balloon;
@@ -14,7 +14,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Repository
-public class BalloonRepository {
+public class InMemoryBalloonRepository {
     public List<Balloon> findAllBalloons() {
         return DataHolder.balloonList;
     }

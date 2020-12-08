@@ -20,7 +20,7 @@
 </head>
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="#">BalloonAPP</a>
+    <a class="navbar-brand" href="/balloons">Balloon Shop</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02"
             aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -29,28 +29,34 @@
     <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
         <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
 
-            <li class="nav-item">
+            <li class="nav-item ">
                 <a class="nav-link" href="/balloons">Home</a>
             </li>
 
-            <li class="nav-item ">
-                <a class="nav-link" href="/orders">My Orders </a>
-            </li>
-
-            <li class="nav-item active">
-                <a class="nav-link" href="/balloons/add-form">Add Balloon <span class="sr-only">(current)</span></a>
+            <li class="nav-item dropdown active">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Balloons
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="/balloons">View All</a>
+                    <a class="dropdown-item" href="/balloons/add-form">Add new balloon</a>
+                </div>
             </li>
         </ul>
 
-        <form th:method="POST" th:action="@{/searchBalloon}">
-            <input type="text" name="queryString"/>
-            <button class="btn btn-primary" type="submit">Search</button>
-        </form>
 
-        <!--        <form class="form-inline my-2 my-lg-0">-->
-        <!--            <input type="text" name="queryString"/>-->
-        <!--            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>-->
-        <!--        </form>-->
+        <a class="btn btn-warning btn-sm ml-3" href="/order/placed">
+            <i class="fa fa-shopping-cart"></i> My orders
+        </a>
+
+        <a class="btn btn-success btn-sm ml-3" href="/shopping-cart">
+            <i class="fa fa-shopping-cart"></i> Cart
+        </a>
+        <a class="btn btn-light btn-sm ml-3" href="/logout">
+            <i class="fa fa-shopping-cart"></i> Logout
+        </a>
+
     </div>
 </nav>
 

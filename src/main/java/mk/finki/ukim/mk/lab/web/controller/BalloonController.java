@@ -43,7 +43,7 @@ public class BalloonController {
         }
 
         // Identify the user on the first entry
-        request.getSession().setAttribute("user", (long) (Math.random() * 1000));
+//        request.getSession().setAttribute("user", (long) (Math.random() * 1000));
 
 
         model.addAttribute("balloons", balloonList);

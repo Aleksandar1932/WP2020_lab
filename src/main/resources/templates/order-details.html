@@ -52,19 +52,15 @@
             <i class="fa fa-shopping-cart"></i> My orders
         </a>
 
+
         <a class="btn btn-success btn-sm ml-3" href="/shopping-cart">
             <i class="fa fa-shopping-cart"></i> Cart
         </a>
-
-
-
         <a class="btn btn-light btn-sm ml-3" href="/logout">
             <i class="fa fa-shopping-cart"></i> Logout
         </a>
     </div>
 </nav>
-
-
 
 
 <div class="jumbotron text-center">
@@ -73,25 +69,7 @@
 
 <div class="row justify-content-md-center">
     <div class="col-md-8">
-        <h2>All balloons:</h2>
-
-        <form action="/balloons" method="GET">
-            <div class="form-group">
-                <select id="typeToSort" name="typeToSort" class="form-control">
-                    <option
-                            th:each="type : ${allTypes}"
-                            th:text="${type}"
-                            th:value="${type}">
-                    </option>
-                </select>
-            </div>
-            <button class="btn btn-primary" type="submit">Sort</button>
-
-        </form>
-
-        <div th:if="${hasError}">
-            <div th:text="${error}" class="text-danger"></div>
-        </div>
+        <h2>Review your order</h2>
 
         <div class="table-responsive">
             <table class="table table-striped">
@@ -101,7 +79,7 @@
                     <th scope="col">Balloon Type</th>
                     <th scope="col">Description</th>
                     <th scope="col">Manufacturer</th>
-                    <th scope="col">Actions</th>
+
                 </tr>
                 </thead>
 
@@ -111,64 +89,28 @@
                     <td th:text="${balloon.getType()}"></td>
                     <td th:text="${balloon.getDescription()}"></td>
                     <td th:text="${balloon.getManufacturer().getName()}"></td>
-                    <td class="text-right">
-                        <form th:method="get" th:action="@{/balloons/delete/{id} (id=${balloon.getId()})}">
-                            <button type="submit" class="btn btn-sm btn-danger">
-                                <i class="fa fa-trash">Delete</i>
-                            </button>
-                        </form>
-
-
-                        <a class="btn btn-sm btn-primary"
-                           th:href="@{'/balloons/edit-form/{id}' (id=${balloon.getId()})}"> <i
-                                class="fa fa-trash">Edit</i>
-                        </a>
-
-
-                        <form th:method="post" th:action="@{'/shopping-cart/add-balloon/{id}' (id=${balloon.getId()})}">
-                            <button type="submit" class="btn btn-sm btn-info">
-                                <i class="fa fa-trash">Add to cart</i>
-                            </button>
-                        </form>
-
-                    </td>
                 </tr>
                 </tbody>
             </table>
         </div>
     </div>
+    <div class="row">
+        <div class="col-sm 12 col-md-12">
+            <a href="#" class="btn btn-block btn-dark">Place Order</a>
+        </div>
+    </div>
 </div>
 
+<form th:method="post" th:action="@{/order/place}">
 
-<!--    <div class="container">-->
-<!--        <a href="/balloons/add-form" class="btn btn-dark">Add Balloon</a>-->
-<!--    </div>-->
-<!--    <ul>-->
-<!--        <li th:each="balloon : ${balloons}">-->
-<!--            <th:block th:text="${balloon.name}"/>-->
-<!--            <th:block th:text="${balloon.description}"/> made by:-->
-<!--            <th:block th:text="${balloon.manufacturer.getName()}"/>-->
-<!--        </li>-->
-<!--    </ul>-->
+    <div class="form-group">
+        <label for="deliveryAddress">Your delivery address</label>
+        <input type="text" class="form-control" name="deliveryAddress" id="deliveryAddress">
+    </div>
 
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
 
-<!--    <h2>Choose balloon color:</h2>-->
-<!--    <form th:method="POST" th:action="@{/selectBalloon}">-->
-<!--        <input type="radio" name="color" value="Red Balloon"> Red Balloon<br/>-->
-<!--        <input type="radio" name="color" value="Green Balloon"> Green Balloon<br/>-->
-<!--        <input type="radio" name="color" value="Yellow Balloon"> Yellow Balloon<br/>-->
-<!--        <input type="radio" name="color" value="Blue Balloon"> Blue Balloon<br/>-->
-<!--        &lt;!&ndash;        <input type='submit' value='Submit'/>&ndash;&gt;-->
-<!--        <button class="btn btn-success" type="submit">Submit</button>-->
-<!--    </form>-->
-<!--    <br/>-->
-
-<!--    <h2>Search a balloon:</h2>-->
-<!--    <form th:method="POST" th:action="@{/searchBalloon}">-->
-<!--        <input type="text" name="queryString"/>-->
-
-<!--        <button class="btn btn-primary" type="submit">Search</button>-->
-<!--    </form>-->
 
 </body>
 

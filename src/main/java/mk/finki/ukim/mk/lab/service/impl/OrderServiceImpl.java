@@ -2,42 +2,48 @@ package mk.finki.ukim.mk.lab.service.impl;
 
 import mk.finki.ukim.mk.lab.model.Balloon;
 import mk.finki.ukim.mk.lab.model.Order;
-import mk.finki.ukim.mk.lab.model.exceptions.InvalidClientDetailsException;
-import mk.finki.ukim.mk.lab.model.exceptions.OrderCannotBePlacedException;
-import mk.finki.ukim.mk.lab.repository.InMemoryOrderRepository;
+import mk.finki.ukim.mk.lab.model.User;
+import mk.finki.ukim.mk.lab.model.exceptions.UserNotFoundException;
+import mk.finki.ukim.mk.lab.repository.jpa.OrderRepository;
 import mk.finki.ukim.mk.lab.service.OrderService;
+import mk.finki.ukim.mk.lab.service.ShoppingCartService;
+import org.aspectj.weaver.ast.Or;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
 public class OrderServiceImpl implements OrderService {
 
-    private final InMemoryOrderRepository orderRepository;
+    OrderRepository orderRepository;
+    ShoppingCartService shoppingCartService;
 
-    public OrderServiceImpl(InMemoryOrderRepository orderRepository) {
+    public OrderServiceImpl(OrderRepository orderRepository, ShoppingCartService shoppingCartService) {
         this.orderRepository = orderRepository;
+        this.shoppingCartService = shoppingCartService;
     }
 
     @Override
-    public Order placeOrder(Balloon balloon, String balloonColor, String balloonSize, String clientName, String clientAddress) {
-        if (balloonColor == null || balloonColor.isEmpty()) {
+    @Transactional
+    public Order placeOrder(User user, String deliveryAddress, List<Balloon> balloons) {
+        Order order = new Order(user, deliveryAddress);
+
+//        order.setBalloons(balloons);
+        order.getBalloons().addAll(balloons);
+
+        orderRepository.save(order);
+        shoppingCartService.deleteActiveShoppingCart(user.getUsername());
+
+        return order;
+    }
+
+    @Override
+    public List<Order> getPlacedOrdersForUser(User user) {
+        if (user == null) {
             throw new IllegalArgumentException();
         }
 
-        if (clientName == null || clientName.isEmpty() || clientAddress == null || clientAddress.isEmpty()) {
-            throw new InvalidClientDetailsException();
-        }
-
-        return orderRepository.save(balloon, balloonColor, balloonSize, clientName, clientAddress).orElseThrow(OrderCannotBePlacedException::new);
-    }
-
-    @Override
-    public List<Order> findByUserName(String username) {
-        if (username != null && !username.isEmpty()) {
-            return orderRepository.findByUserName(username);
-        }
-
-        throw new IllegalArgumentException();
+        return orderRepository.findAllByUser(user);
     }
 }
