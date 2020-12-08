@@ -28,8 +28,6 @@ public class OrderServiceImpl implements OrderService {
     @Transactional
     public Order placeOrder(User user, String deliveryAddress, List<Balloon> balloons) {
         Order order = new Order(user, deliveryAddress);
-
-//        order.setBalloons(balloons);
         order.getBalloons().addAll(balloons);
 
         orderRepository.save(order);

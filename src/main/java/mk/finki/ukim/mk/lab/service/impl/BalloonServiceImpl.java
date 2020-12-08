@@ -3,6 +3,7 @@ package mk.finki.ukim.mk.lab.service.impl;
 import mk.finki.ukim.mk.lab.model.Balloon;
 import mk.finki.ukim.mk.lab.model.Manufacturer;
 import mk.finki.ukim.mk.lab.model.enumerations.BalloonType;
+import mk.finki.ukim.mk.lab.model.exceptions.BalloonNotFoundException;
 import mk.finki.ukim.mk.lab.model.exceptions.ManufacturerNotFoundException;
 import mk.finki.ukim.mk.lab.repository.impl.InMemoryBalloonRepository;
 import mk.finki.ukim.mk.lab.repository.impl.InMemoryManufacturerRepository;
@@ -59,7 +60,11 @@ public class BalloonServiceImpl implements BalloonService {
 
     @Override
     public void deleteById(Long id) {
+        if (!balloonRepository.existsById(id)) {
+            throw new BalloonNotFoundException(id);
+        }
         balloonRepository.deleteById(id);
+
     }
 
     @Override

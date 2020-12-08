@@ -18,35 +18,12 @@ import java.util.List;
 @RequestMapping("/order")
 public class OrderController {
     private final OrderService orderService;
-    private final BalloonService balloonService;
     private final ShoppingCartService shoppingCartService;
 
-    public OrderController(OrderService orderService, BalloonService balloonService, ShoppingCartService shoppingCartService) {
+    public OrderController(OrderService orderService, ShoppingCartService shoppingCartService) {
         this.orderService = orderService;
-        this.balloonService = balloonService;
         this.shoppingCartService = shoppingCartService;
     }
-
-//    @GetMapping()
-//    public String getOrdersByCurrentClient(HttpSession session, Model model) {
-//        String clientName = (String) session.getAttribute("clientName");
-//
-//
-//        if (clientName != null && !clientName.isEmpty()) {
-//            List<Order> orderList = orderService.findByUserName(clientName);
-//
-//            if (orderList.isEmpty()) {
-//                return "redirect:/balloons?error:NoOrders";
-//            } else {
-//                model.addAttribute("orders", orderList);
-//
-//                return "orders";
-//            }
-//
-//
-//        }
-//        return "redirect:/balloons?error=You don't have any orders yet!";
-//    }
 
     @GetMapping("/place")
     public String placeOrder(Model model, HttpSession session) {

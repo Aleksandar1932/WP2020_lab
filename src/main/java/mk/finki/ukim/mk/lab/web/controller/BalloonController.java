@@ -10,7 +10,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -42,10 +41,6 @@ public class BalloonController {
             balloonList = this.balloonService.listAll();
         }
 
-        // Identify the user on the first entry
-//        request.getSession().setAttribute("user", (long) (Math.random() * 1000));
-
-
         model.addAttribute("balloons", balloonList);
         model.addAttribute("allTypes", BalloonType.values());
 
@@ -61,7 +56,6 @@ public class BalloonController {
             @RequestParam String type
     ) {
 
-//        BalloonType balloonType = new BalloonType.valueOf(type);
         BalloonType balloonType = BalloonType.valueOf(type);
         this.balloonService.save(name, description, manufacturerId, balloonType);
 
