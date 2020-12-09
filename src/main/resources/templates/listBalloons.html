@@ -3,6 +3,8 @@
 <head>
     <meta charset="utf-8">
     <title>Balloon Order page - Welcome and choose a Balloon</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA==" crossorigin="anonymous" />
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
@@ -30,7 +32,7 @@
         <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
 
             <li class="nav-item active">
-                <a class="nav-link" href="/balloons">Home</a>
+                <a class="nav-link" href="/balloons">Home </a>
             </li>
 
             <li class="nav-item dropdown">
@@ -46,16 +48,16 @@
         </ul>
 
         <a class="btn btn-warning btn-sm ml-3" href="/order/placed">
-            <i class="fa fa-shopping-cart"></i> My orders
+            <i class="fas fa-history"></i> My orders
         </a>
 
         <a class="btn btn-success btn-sm ml-3" href="/shopping-cart">
-            <i class="fa fa-shopping-cart"></i> Cart
+            <i class="fas fa-shopping-cart"></i> Cart
         </a>
 
 
         <a class="btn btn-light btn-sm ml-3" href="/logout">
-            <i class="fa fa-shopping-cart"></i> Logout
+            <i class="fas fa-sign-out-alt"></i></i> Logout
         </a>
     </div>
 </nav>
@@ -80,11 +82,11 @@
                             </option>
                         </select>
                     </div>
-                    <button class="btn btn-primary mx-2" type="submit">Filter</button>
+                    <button class="btn btn-primary mx-2" type="submit"> <i class="fas fa-filter"></i> Filter</button>
 
                 </form>
 
-                <a class="btn btn-danger" href="/balloons" type="submit">Clear</a>
+                <a class="btn btn-danger" href="/balloons" type="submit"><i class="fas fa-eraser"></i> Clear</a>
             </div>
 
             <div class="row" th:if="${hasError}">
@@ -114,20 +116,19 @@
                                 <div class="row">
                                     <form class="px-2" th:method="get" th:action="@{/balloons/delete/{id} (id=${balloon.getId()})}">
                                         <button type="submit" class="btn btn-sm btn-danger">
-                                            <i class="fa fa-trash">Delete</i>
+                                            <i class="fas fa-trash"></i> Delete
                                         </button>
                                     </form>
 
 
                                     <a class="px-2 btn btn-sm btn-primary"
-                                       th:href="@{'/balloons/edit-form/{id}' (id=${balloon.getId()})}"> <i
-                                            class="fa fa-trash">Edit</i>
+                                       th:href="@{'/balloons/edit-form/{id}' (id=${balloon.getId()})}"> <i class="fas fa-edit"></i> Edit
                                     </a>
 
 
                                     <form class="px-2" th:method="post" th:action="@{'/shopping-cart/add-balloon/{id}' (id=${balloon.getId()})}">
-                                        <button type="submit" class="btn btn-sm btn-info">
-                                            <i class="fa fa-trash">Add to cart</i>
+                                        <button type="submit" class="btn btn-sm btn-success">
+                                            <i class="fas fa-cart-plus"></i> Add to cart
                                         </button>
                                     </form>
                                 </div>
