@@ -13,6 +13,7 @@ import mk.finki.ukim.mk.lab.service.BalloonService;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -35,17 +36,18 @@ public class BalloonServiceImpl implements BalloonService {
     }
 
     @Override
-    public List<Balloon> listAllSortedByType(BalloonType type) {
+    public List<Balloon> filterByType(BalloonType type) {
         return balloonRepository.findAll().stream().filter(balloon -> balloon.getType().equals(type)).collect(Collectors.toList());
     }
+
 
     @Override
     @Transactional
     public Optional<Balloon> save(String name, String description, Long manufacturerId, BalloonType type) {
-
         Manufacturer manufacturer = manufacturerRepository.findById(manufacturerId).orElseThrow(() -> new ManufacturerNotFoundException(manufacturerId));
 
         Balloon b = new Balloon(name, description, manufacturer, type);
+
         return Optional.of(this.balloonRepository.save(b));
     }
 

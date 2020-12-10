@@ -24,7 +24,7 @@ public class BalloonController {
     }
 
     @GetMapping
-    public String getBalloonsPage(@RequestParam(required = false) String error, @RequestParam(required = false) String typeToSort, Model model, HttpServletRequest request) {
+    public String getBalloonsPage(@RequestParam(required = false) String error, @RequestParam(required = false) String filterBy, Model model, HttpServletRequest request) {
         if (error != null && !error.isEmpty()) {
             model.addAttribute("hasError", true);
             model.addAttribute("error", error);
@@ -32,10 +32,10 @@ public class BalloonController {
 
         List<Balloon> balloonList;
 
-        if (typeToSort != null && !typeToSort.isEmpty()) {
-            BalloonType type = BalloonType.valueOf(typeToSort);
+        if (filterBy != null && !filterBy.isEmpty()) {
+            BalloonType type = BalloonType.valueOf(filterBy);
 
-            balloonList = this.balloonService.listAllSortedByType(type);
+            balloonList = this.balloonService.filterByType(type);
 
         } else {
             balloonList = this.balloonService.listAll();

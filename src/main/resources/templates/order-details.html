@@ -67,13 +67,12 @@
 
 
 <div class="jumbotron text-center">
-    <h1>The No.1 balloon shop</h1>
+    <h1>Review your order</h1>
 </div>
 
 <div class="row justify-content-md-center">
     <div class="col-md-8">
-        <h2>Review your order</h2>
-
+        <h3>Your balloons:</h3>
         <div class="table-responsive">
             <table class="table table-striped">
                 <thead>
@@ -96,23 +95,19 @@
                 </tbody>
             </table>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-sm 12 col-md-12">
-            <a href="#" class="btn btn-block btn-dark">Place Order</a>
-        </div>
+        <form th:method="post" th:action="@{/order/place}">
+
+            <div class="form-group">
+                <label for="deliveryAddress">Your delivery address</label>
+                <input type="text" class="form-control" name="deliveryAddress" id="deliveryAddress">
+            </div>
+
+            <button type="submit" class="col-md-12 btn btn-primary"><i class="fas fa-paper-plane"></i> Place Order</button>
+        </form>
     </div>
 </div>
 
-<form th:method="post" th:action="@{/order/place}">
 
-    <div class="form-group">
-        <label for="deliveryAddress">Your delivery address</label>
-        <input type="text" class="form-control" name="deliveryAddress" id="deliveryAddress">
-    </div>
-
-    <button type="submit" class="btn btn-primary">Submit</button>
-</form>
 
 
 </body>

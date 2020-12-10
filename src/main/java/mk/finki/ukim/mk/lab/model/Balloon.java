@@ -21,7 +21,7 @@ public class Balloon {
     @ManyToOne
     Manufacturer manufacturer;
 
-//    @Enumerated(EnumType.STRING)
+    //    @Enumerated(EnumType.STRING)
     BalloonType type;
 
 

@@ -9,7 +9,7 @@ import java.util.Optional;
 public interface BalloonService {
     List<Balloon> listAll();
 
-    List<Balloon> listAllSortedByType(BalloonType type);
+    List<Balloon> filterByType(BalloonType type);
 
     List<Balloon> searchByNameOrDescription(String text);
 

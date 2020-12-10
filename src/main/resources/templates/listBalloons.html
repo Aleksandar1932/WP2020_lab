@@ -74,7 +74,7 @@
                 <h5 class="mx-1">Filter by Balloon Type: </h5>
                 <form class="form-inline mx-1" action="/balloons" method="GET">
                     <div class="form-group">
-                        <select id="typeToSort" name="typeToSort" class="form-control">
+                        <select id="typeToSort" name="filterBy" class="form-control">
                             <option
                                     th:each="type : ${allTypes}"
                                     th:text="${type}"
