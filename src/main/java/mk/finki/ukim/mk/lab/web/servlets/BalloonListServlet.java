@@ -30,6 +30,6 @@
 //        List<Balloon> balloonList = balloonService.listAll();
 //        context.setVariable("balloons", balloonList);
 //
-//        springTemplateEngine.process("listBalloons.html", context, resp.getWriter());
+//        springTemplateEngine.process("list-balloons.html", context, resp.getWriter());
 //    }
 //}

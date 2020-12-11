@@ -44,7 +44,7 @@ public class BalloonController {
         model.addAttribute("balloons", balloonList);
         model.addAttribute("allTypes", BalloonType.values());
 
-        return "listBalloons";
+        return "list-balloons";
     }
 
 
