@@ -12,7 +12,7 @@ public interface ShoppingCartService {
 
     ShoppingCart getActiveShoppingCart(String username);
 
-    void deleteActiveShoppingCart(String username);
+    void changeStatusToFinishedOfActiveShoppingCart(String username);
 
     ShoppingCart addBalloonToShoppingCart(String username, Long productId);
 

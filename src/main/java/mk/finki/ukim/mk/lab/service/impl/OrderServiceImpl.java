@@ -3,11 +3,9 @@ package mk.finki.ukim.mk.lab.service.impl;
 import mk.finki.ukim.mk.lab.model.Balloon;
 import mk.finki.ukim.mk.lab.model.Order;
 import mk.finki.ukim.mk.lab.model.User;
-import mk.finki.ukim.mk.lab.model.exceptions.UserNotFoundException;
 import mk.finki.ukim.mk.lab.repository.jpa.OrderRepository;
 import mk.finki.ukim.mk.lab.service.OrderService;
 import mk.finki.ukim.mk.lab.service.ShoppingCartService;
-import org.aspectj.weaver.ast.Or;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -31,7 +29,7 @@ public class OrderServiceImpl implements OrderService {
         order.getBalloons().addAll(balloons);
 
         orderRepository.save(order);
-        shoppingCartService.deleteActiveShoppingCart(user.getUsername());
+        shoppingCartService.changeStatusToFinishedOfActiveShoppingCart(user.getUsername());
 
         return order;
     }

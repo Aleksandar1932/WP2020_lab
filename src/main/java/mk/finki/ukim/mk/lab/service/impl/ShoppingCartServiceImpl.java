@@ -67,9 +67,11 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     }
 
     @Override
-    public void deleteActiveShoppingCart(String username) {
+    public void changeStatusToFinishedOfActiveShoppingCart(String username) {
         ShoppingCart activeShoppingCart = this.getActiveShoppingCart(username);
-        shoppingCartRepository.delete(activeShoppingCart);
+        activeShoppingCart.setStatus(ShoppingCartStatus.FINISHED);
+        shoppingCartRepository.save(activeShoppingCart);
+//        shoppingCartRepository.delete(activeShoppingCart);
     }
 
     @Override
