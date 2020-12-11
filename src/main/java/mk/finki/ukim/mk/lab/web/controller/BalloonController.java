@@ -99,4 +99,14 @@ public class BalloonController {
 
         return "redirect:/balloons";
     }
+
+    @PostMapping("/find")
+    public String findAllByText(@RequestParam String text, Model model) {
+        List<Balloon> balloons = this.balloonService.findAllByText(text);
+
+        model.addAttribute("balloons", balloons);
+        model.addAttribute("allTypes", BalloonType.values());
+
+        return "list-balloons";
+    }
 }

@@ -83,8 +83,24 @@
 
                 </form>
 
-                <a class="btn btn-danger" href="/balloons" type="submit"><i class="fas fa-eraser"></i> Clear</a>
+
             </div>
+            <br>
+            <div class="row">
+                <h5 class="mx-1">Search by text: </h5>
+                <form th:method="post" action="/balloons/find" class="form-inline mx-1">
+                    <div class="form-group">
+                        <input type="text" name="text" id="text">
+                    </div>
+
+
+                    <button class="btn btn-primary" type="submit">Search</button>
+                </form>
+            </div>
+
+            <a class="btn btn-danger" href="/balloons" type="submit"><i class="fas fa-eraser"></i> Clear</a>
+
+            <br>
 
             <div class="row" th:if="${hasError}">
                 <div th:text="${error}" class="text-danger"></div>
