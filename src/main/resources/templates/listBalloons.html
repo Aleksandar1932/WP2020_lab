@@ -4,7 +4,9 @@
     <meta charset="utf-8">
     <title>Balloon Order page - Welcome and choose a Balloon</title>
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"
+          integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA=="
+          crossorigin="anonymous"/>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
@@ -18,7 +20,7 @@
             crossorigin="anonymous"></script>
 
 </head>
-<body>
+<body onload="getNumberOfBalloonsInCurrentUserShoppingCart()">
 
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -53,6 +55,7 @@
 
         <a class="btn btn-success btn-sm ml-3" href="/shopping-cart">
             <i class="fas fa-shopping-cart"></i> Cart
+            <span class="badge badge-light" id="numberOfBalloonsInCurrentUserShoppingCart">  </span>
         </a>
 
 
@@ -82,7 +85,7 @@
                             </option>
                         </select>
                     </div>
-                    <button class="btn btn-primary mx-2" type="submit"> <i class="fas fa-filter"></i> Filter</button>
+                    <button class="btn btn-primary mx-2" type="submit"><i class="fas fa-filter"></i> Filter</button>
 
                 </form>
 
@@ -114,7 +117,8 @@
                         <td class="text-right">
                             <div class="container">
                                 <div class="row">
-                                    <form class="px-2" th:method="get" th:action="@{/balloons/delete/{id} (id=${balloon.getId()})}">
+                                    <form class="px-2" th:method="get"
+                                          th:action="@{/balloons/delete/{id} (id=${balloon.getId()})}">
                                         <button type="submit" class="btn btn-sm btn-danger">
                                             <i class="fas fa-trash"></i> Delete
                                         </button>
@@ -122,18 +126,19 @@
 
 
                                     <a class="px-2 btn btn-sm btn-primary"
-                                       th:href="@{'/balloons/edit-form/{id}' (id=${balloon.getId()})}"> <i class="fas fa-edit"></i> Edit
+                                       th:href="@{'/balloons/edit-form/{id}' (id=${balloon.getId()})}"> <i
+                                            class="fas fa-edit"></i> Edit
                                     </a>
 
 
-                                    <form class="px-2" th:method="post" th:action="@{'/shopping-cart/add-balloon/{id}' (id=${balloon.getId()})}">
+                                    <form class="px-2" th:method="post"
+                                          th:action="@{'/shopping-cart/add-balloon/{id}' (id=${balloon.getId()})}">
                                         <button type="submit" class="btn btn-sm btn-success">
                                             <i class="fas fa-cart-plus"></i> Add to cart
                                         </button>
                                     </form>
                                 </div>
                             </div>
-
 
 
                         </td>
@@ -151,3 +156,10 @@
 <div th:replace="fragments/footer :: footer">...</div>
 
 </html>
+
+<script>
+    async function getNumberOfBalloonsInCurrentUserShoppingCart() {
+        let response = await fetch('/api/shopping-cart/items');
+        document.getElementById("numberOfBalloonsInCurrentUserShoppingCart").textContent = await response.json();
+    }
+</script>
