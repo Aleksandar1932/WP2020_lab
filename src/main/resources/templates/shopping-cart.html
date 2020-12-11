@@ -85,6 +85,7 @@
                         <th scope="col">Description</th>
                         <th scope="col">Manufacturer</th>
                         <th scope="col">Type</th>
+                        <th scope="col">Actions</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -93,6 +94,14 @@
                         <td th:text="${balloon.getDescription()}"></td>
                         <td th:text="${balloon.getManufacturer() != null} ? ${balloon.getManufacturer().getName()} : 'No Manufacturer'"></td>
                         <td th:text="${balloon.getType() != null} ? ${balloon.getType().name()} : 'No Type'"></td>
+                        <td class="text-left">
+                            <form class="px-2" th:method="post"
+                                  th:action="@{/shopping-cart/remove-balloon/{id} (id=${balloon.getId()})}">
+                                <button type="submit" class="btn btn-sm btn-danger">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </form>
+                        </td>
                     </tr>
                     </tbody>
                 </table>

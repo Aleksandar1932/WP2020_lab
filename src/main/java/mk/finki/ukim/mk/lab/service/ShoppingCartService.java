@@ -14,6 +14,8 @@ public interface ShoppingCartService {
 
     void changeStatusToFinishedOfActiveShoppingCart(String username);
 
-    ShoppingCart addBalloonToShoppingCart(String username, Long productId);
+    ShoppingCart addBalloonToShoppingCart(String username, Long balloonId);
+
+    ShoppingCart removeBalloonFromShoppingCart(String username, Long balloonId);
 
 }

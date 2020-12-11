@@ -71,12 +71,22 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
         ShoppingCart activeShoppingCart = this.getActiveShoppingCart(username);
         activeShoppingCart.setStatus(ShoppingCartStatus.FINISHED);
         shoppingCartRepository.save(activeShoppingCart);
-//        shoppingCartRepository.delete(activeShoppingCart);
     }
 
     @Override
     public List<Balloon> getAllBalloonsInUserActiveShoppingCard(String username) {
         ShoppingCart activeShoppingCart = this.getActiveShoppingCart(username);
         return activeShoppingCart.getBalloons();
+    }
+
+    @Override
+    public ShoppingCart removeBalloonFromShoppingCart(String username, Long balloonId) {
+        ShoppingCart shoppingCart = this.getActiveShoppingCart(username);
+
+        Balloon balloon = this.balloonService.findById(balloonId)
+                .orElseThrow(() -> new BalloonNotFoundException(balloonId));
+
+        shoppingCart.getBalloons().remove(balloon);
+        return this.shoppingCartRepository.save(shoppingCart);
     }
 }

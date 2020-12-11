@@ -40,6 +40,18 @@ public class ShoppingCartController {
             User user = (User) session.getAttribute("user");
             ShoppingCart shoppingCart = this.shoppingCartService.addBalloonToShoppingCart(user.getUsername(), id);
 
+            return "redirect:/balloons";
+        } catch (RuntimeException exception) {
+            return "redirect:/shopping-cart?error=" + exception.getMessage();
+        }
+    }
+
+    @PostMapping("/remove-balloon/{id}")
+    public String removeBalloonFromShoppingCart(@PathVariable Long id, HttpSession session) {
+        try {
+            User user = (User) session.getAttribute("user");
+            ShoppingCart shoppingCart = this.shoppingCartService.removeBalloonFromShoppingCart(user.getUsername(), id);
+
             return "redirect:/shopping-cart";
         } catch (RuntimeException exception) {
             return "redirect:/shopping-cart?error=" + exception.getMessage();
