@@ -43,10 +43,14 @@ public class BalloonServiceImpl implements BalloonService {
 
     @Override
     @Transactional
-    public Optional<Balloon> save(String name, String description, Long manufacturerId, BalloonType type) {
+    public Optional<Balloon> save(String name, String description, Long manufacturerId, BalloonType type, Long balloonToUpdateId) {
         Manufacturer manufacturer = manufacturerRepository.findById(manufacturerId).orElseThrow(() -> new ManufacturerNotFoundException(manufacturerId));
 
         Balloon b = new Balloon(name, description, manufacturer, type);
+
+        if (balloonToUpdateId != null) {
+            balloonRepository.deleteById(balloonToUpdateId);
+        }
 
         return Optional.of(this.balloonRepository.save(b));
     }

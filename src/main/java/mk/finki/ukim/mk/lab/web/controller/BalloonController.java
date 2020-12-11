@@ -53,11 +53,13 @@ public class BalloonController {
             @RequestParam String name,
             @RequestParam String description,
             @RequestParam Long manufacturerId,
-            @RequestParam String type
+            @RequestParam String type,
+            @RequestParam(required = false) Long balloonToUpdateId
     ) {
 
         BalloonType balloonType = BalloonType.valueOf(type);
-        this.balloonService.save(name, description, manufacturerId, balloonType);
+
+        this.balloonService.save(name, description, manufacturerId, balloonType, balloonToUpdateId);
 
         return "redirect:/balloons";
     }

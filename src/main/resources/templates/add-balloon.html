@@ -96,6 +96,8 @@
                            placeholder="Enter the balloon's description">
                 </div>
 
+                <input type="hidden" th:value="${balloon.getId()}" name="balloonToUpdateId">
+
 
                 <div class="form-group">
                     <label for="manufacturerId">Balloon Manufacturer</label>
