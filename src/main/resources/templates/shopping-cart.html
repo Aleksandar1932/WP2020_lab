@@ -1,178 +1,63 @@
-<!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8"/>
-    <title>Shopping Cart</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"
-          integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA=="
-          crossorigin="anonymous"/>
+<th:block xmlns:th="http://www.thymeleaf.org">
+    <section class="jumbotron text-center">
+        <div class="container">
+            <h3 class="jumbotron-heading">Shopping cart for
+                <th:block th:if="${session.user != null}" th:text="${session.user.getUsername()}"></th:block>
+            </h3>
+        </div>
+    </section>
 
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-            crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
-            integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
-            crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-            crossorigin="anonymous"></script>
-</head>
-</head>
-<body>
+    <div th:if="${hasError}">
+        <h5 class="text-center text-danger" th:text="${error}"></h5>
+    </div>
 
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="/balloons">Balloon Shop</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02"
-            aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-
-    <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
-        <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-
-            <li class="nav-item">
-                <a class="nav-link" href="/balloons">Home</a>
-            </li>
-
-            <li class="nav-item active dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Balloons
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="/balloons">View All</a>
-                    <a class="dropdown-item" href="/balloons/add-form">Add new balloon</a>
+    <div class="container mb-4">
+        <div class="row">
+            <div class="col-12" th:if="${balloons.size() > 0}">
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th scope="col">Name</th>
+                            <th scope="col">Description</th>
+                            <th scope="col">Manufacturer</th>
+                            <th scope="col">Type</th>
+                            <th scope="col">Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="balloon : ${balloons}">
+                            <td th:text="${balloon.getName()}"></td>
+                            <td th:text="${balloon.getDescription()}"></td>
+                            <td th:text="${balloon.getManufacturer() != null} ? ${balloon.getManufacturer().getName()} : 'No Manufacturer'"></td>
+                            <td th:text="${balloon.getType() != null} ? ${balloon.getType().name()} : 'No Type'"></td>
+                            <td class="text-left">
+                                <form class="px-2" th:method="post"
+                                      th:action="@{/shopping-cart/remove-balloon/{id} (id=${balloon.getId()})}">
+                                    <button type="submit" class="btn btn-sm btn-danger">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
                 </div>
-            </li>
-        </ul>
 
-        <div th:replace="fragments/my-orders-button :: my-orders-button"></div>
-
-        <div th:replace="fragments/shopping-cart-button :: shopping-cart-button"></div>
-
-        <a class="btn btn-light btn-sm ml-3" href="/logout">
-            <i class="fas fa-sign-out-alt"></i></i> Logout
-        </a>
-    </div>
-</nav>
-
-<section class="jumbotron text-center">
-    <div class="container">
-        <h3 class="jumbotron-heading">Shopping cart for
-            <th:block th:if="${session.user != null}" th:text="${session.user.getUsername()}"></th:block>
-        </h3>
-    </div>
-</section>
-
-<div th:if="${hasError}">
-    <h5 class="text-center text-danger" th:text="${error}"></h5>
-</div>
-
-<div class="container mb-4">
-    <div class="row">
-        <div class="col-12" th:if="${balloons.size() > 0}">
-            <div class="table-responsive">
-                <table class="table table-striped">
-                    <thead>
-                    <tr>
-                        <th scope="col">Name</th>
-                        <th scope="col">Description</th>
-                        <th scope="col">Manufacturer</th>
-                        <th scope="col">Type</th>
-                        <th scope="col">Actions</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr th:each="balloon : ${balloons}">
-                        <td th:text="${balloon.getName()}"></td>
-                        <td th:text="${balloon.getDescription()}"></td>
-                        <td th:text="${balloon.getManufacturer() != null} ? ${balloon.getManufacturer().getName()} : 'No Manufacturer'"></td>
-                        <td th:text="${balloon.getType() != null} ? ${balloon.getType().name()} : 'No Type'"></td>
-                        <td class="text-left">
-                            <form class="px-2" th:method="post"
-                                  th:action="@{/shopping-cart/remove-balloon/{id} (id=${balloon.getId()})}">
-                                <button type="submit" class="btn btn-sm btn-danger">
-                                    <i class="fas fa-trash"></i>
-                                </button>
-                            </form>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-
-            <div class="col mb-3">
-                <div class="row">
-                    <div class="col-sm 12 col-md-12">
-                        <a href="/order/place" class="btn btn-block btn-dark">Place Order</a>
+                <div class="col mb-3">
+                    <div class="row">
+                        <div class="col-sm 12 col-md-12">
+                            <a href="/order/place" class="btn btn-block btn-dark">Place Order</a>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
 
-        <div class="col-12" th:if="${balloons.size() == 0}">
-            Your shopping cart is empty.
+            <div class="col-12" th:if="${balloons.size() == 0}">
+                Your shopping cart is empty.
 
-            <a href="/balloons" class="btn btn-success">Shop for balloons</a>
+                <a href="/balloons" class="btn btn-success">Shop for balloons</a>
+            </div>
         </div>
     </div>
-
-</div>
-
-<div th:replace="fragments/footer :: footer">...</div>
-
-<!-- Footer -->
-<!--<footer class="text-black-50 mt-xl-5">-->
-<!--    <div class="container">-->
-<!--        <div class="row">-->
-<!--            <div class="col-md-3 col-lg-4 col-xl-3">-->
-<!--                <h5>About</h5>-->
-<!--                <hr class="bg-white mb-2 mt-0 d-inline-block mx-auto w-25">-->
-<!--                <p class="mb-0">-->
-<!--                    Le Lorem Ipsum est simplement du faux texte employé dans la composition et la mise en page avant-->
-<!--                    impression.-->
-<!--                </p>-->
-<!--            </div>-->
-
-<!--            <div class="col-md-2 col-lg-2 col-xl-2 mx-auto">-->
-<!--                <h5>Informations</h5>-->
-<!--                <hr class="bg-white mb-2 mt-0 d-inline-block mx-auto w-25">-->
-<!--                <ul class="list-unstyled">-->
-<!--                    <li><a href="">Link 1</a></li>-->
-<!--                    <li><a href="">Link 2</a></li>-->
-<!--                    <li><a href="">Link 3</a></li>-->
-<!--                    <li><a href="">Link 4</a></li>-->
-<!--                </ul>-->
-<!--            </div>-->
-
-<!--            <div class="col-md-3 col-lg-2 col-xl-2 mx-auto">-->
-<!--                <h5>Others links</h5>-->
-<!--                <hr class="bg-white mb-2 mt-0 d-inline-block mx-auto w-25">-->
-<!--                <ul class="list-unstyled">-->
-<!--                    <li><a href="">Link 1</a></li>-->
-<!--                    <li><a href="">Link 2</a></li>-->
-<!--                    <li><a href="">Link 3</a></li>-->
-<!--                    <li><a href="">Link 4</a></li>-->
-<!--                </ul>-->
-<!--            </div>-->
-
-<!--            <div class="col-md-4 col-lg-3 col-xl-3">-->
-<!--                <h5>Contact</h5>-->
-<!--                <hr class="bg-white mb-2 mt-0 d-inline-block mx-auto w-25">-->
-<!--                <ul class="list-unstyled">-->
-<!--                    <li><i class="fa fa-home mr-2"></i> My company</li>-->
-<!--                    <li><i class="fa fa-envelope mr-2"></i> email@example.com</li>-->
-<!--                    <li><i class="fa fa-phone mr-2"></i> + 33 12 14 15 16</li>-->
-<!--                    <li><i class="fa fa-print mr-2"></i> + 33 12 14 15 16</li>-->
-<!--                </ul>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--    </div>-->
-<!--</footer>-->
-</body>
-</html>
-
-
-
+</th:block>

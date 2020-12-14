@@ -43,8 +43,9 @@ public class BalloonController {
 
         model.addAttribute("balloons", balloonList);
         model.addAttribute("allTypes", BalloonType.values());
+        model.addAttribute("bodyContent", "list-balloons");
 
-        return "list-balloons";
+        return "master-template";
     }
 
 
@@ -72,7 +73,8 @@ public class BalloonController {
         model.addAttribute("manufacturers", manufacturers);
         model.addAttribute("types", BalloonType.values());
 
-        return "add-balloon";
+        model.addAttribute("bodyContent", "add-balloon");
+        return "master-template";
     }
 
     @GetMapping("/edit-form/{id}")
@@ -87,7 +89,8 @@ public class BalloonController {
             model.addAttribute("types", BalloonType.values());
             model.addAttribute("balloon", balloon);
 
-            return "add-balloon";
+            model.addAttribute("bodyContent", "add-balloon");
+            return "master-template";
         }
         return "redirect:/balloons?error=BalloonNotFound";
     }
@@ -107,6 +110,7 @@ public class BalloonController {
         model.addAttribute("balloons", balloons);
         model.addAttribute("allTypes", BalloonType.values());
 
-        return "list-balloons";
+        model.addAttribute("bodyContent", "list-balloons");
+        return "master-template";
     }
 }

@@ -30,7 +30,9 @@ public class ShoppingCartController {
         User user = (User) session.getAttribute("user");
         ShoppingCart shoppingCart = this.shoppingCartService.getActiveShoppingCart(user.getUsername());
         model.addAttribute("balloons", this.shoppingCartService.listAllBalloonsInShoppingCart(shoppingCart.getId()));
-        return "shopping-cart";
+
+        model.addAttribute("bodyContent", "shopping-cart");
+        return "master-template";
     }
 
 

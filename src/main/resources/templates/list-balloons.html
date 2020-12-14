@@ -1,166 +1,99 @@
-<!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="utf-8">
-    <title>Home</title>
-
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"
-          integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA=="
-          crossorigin="anonymous"/>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-            crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
-            integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
-            crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-            crossorigin="anonymous"></script>
-
-</head>
-<body onload="getNumberOfBalloonsInCurrentUserShoppingCart()">
-
-
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="/balloons">Balloon Shop</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02"
-            aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-
-    <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
-        <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-
-            <li class="nav-item active">
-                <a class="nav-link" href="/balloons">Home </a>
-            </li>
-
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Balloons
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="/balloons">View All</a>
-                    <a class="dropdown-item" href="/balloons/add-form">Add new balloon</a>
-                </div>
-            </li>
-        </ul>
-
-        <div th:replace="fragments/my-orders-button :: my-orders-button"></div>
-
-        <div th:replace="fragments/shopping-cart-button :: shopping-cart-button"></div>
-
-        <a class="btn btn-light btn-sm ml-3" href="/logout">
-            <i class="fas fa-sign-out-alt"></i></i> Logout
-        </a>
+<th:block xmlns:th="http://www.thymeleaf.org">
+    <div class="jumbotron text-center">
+        <h1>The No.1 balloon shop</h1>
     </div>
-</nav>
+
+    <div class="container">
+        <div class="row justify-content-md-center">
+            <div class="col-md-10">
+                <div class="row">
+                    <h5 class="mx-1">Filter by Balloon Type: </h5>
+                    <form class="form-inline mx-1" action="/balloons" method="GET">
+                        <div class="form-group">
+                            <select id="typeToSort" name="filterBy" class="form-control">
+                                <option
+                                        th:each="type : ${allTypes}"
+                                        th:text="${type}"
+                                        th:value="${type}">
+                                </option>
+                            </select>
+                        </div>
+                        <button class="btn btn-primary mx-2" type="submit"><i class="fas fa-filter"></i> Filter</button>
+
+                    </form>
 
 
-<div class="jumbotron text-center">
-    <h1>The No.1 balloon shop</h1>
-</div>
-
-<div class="container">
-    <div class="row justify-content-md-center">
-        <div class="col-md-10">
-            <div class="row">
-                <h5 class="mx-1">Filter by Balloon Type: </h5>
-                <form class="form-inline mx-1" action="/balloons" method="GET">
-                    <div class="form-group">
-                        <select id="typeToSort" name="filterBy" class="form-control">
-                            <option
-                                    th:each="type : ${allTypes}"
-                                    th:text="${type}"
-                                    th:value="${type}">
-                            </option>
-                        </select>
-                    </div>
-                    <button class="btn btn-primary mx-2" type="submit"><i class="fas fa-filter"></i> Filter</button>
-
-                </form>
+                </div>
+                <br>
+                <div class="row">
+                    <h5 class="mx-1">Search by text: </h5>
+                    <form th:method="post" action="/balloons/find" class="form-inline mx-1">
+                        <div class="form-group">
+                            <input type="text" name="text" id="text">
+                        </div>
 
 
-            </div>
-            <br>
-            <div class="row">
-                <h5 class="mx-1">Search by text: </h5>
-                <form th:method="post" action="/balloons/find" class="form-inline mx-1">
-                    <div class="form-group">
-                        <input type="text" name="text" id="text">
-                    </div>
+                        <button class="btn btn-primary" type="submit">Search</button>
+                    </form>
+                </div>
+
+                <a class="btn btn-danger" href="/balloons" type="submit"><i class="fas fa-eraser"></i> Clear</a>
+
+                <br>
+
+                <div class="row" th:if="${hasError}">
+                    <div th:text="${error}" class="text-danger"></div>
+                </div>
+                <br>
+                <div class="row table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th scope="col">Balloon Name</th>
+                            <th scope="col">Balloon Type</th>
+                            <th scope="col">Description</th>
+                            <th scope="col">Manufacturer</th>
+                            <th scope="col">Actions</th>
+                        </tr>
+                        </thead>
+
+                        <tbody>
+                        <tr th:each="balloon : ${balloons}">
+                            <td th:text="${balloon.getName()}"></td>
+                            <td th:text="${balloon.getType()}"></td>
+                            <td th:text="${balloon.getDescription()}"></td>
+                            <td th:text="${balloon.getManufacturer().getName()}"></td>
+                            <td class="text-right">
+                                <div class="container">
+                                    <div class="row">
+                                        <form class="px-2" th:method="get"
+                                              th:action="@{/balloons/delete/{id} (id=${balloon.getId()})}">
+                                            <button type="submit" class="btn btn-sm btn-danger">
+                                                <i class="fas fa-trash"></i> Delete
+                                            </button>
+                                        </form>
 
 
-                    <button class="btn btn-primary" type="submit">Search</button>
-                </form>
-            </div>
-
-            <a class="btn btn-danger" href="/balloons" type="submit"><i class="fas fa-eraser"></i> Clear</a>
-
-            <br>
-
-            <div class="row" th:if="${hasError}">
-                <div th:text="${error}" class="text-danger"></div>
-            </div>
-            <br>
-            <div class="row table-responsive">
-                <table class="table table-striped">
-                    <thead>
-                    <tr>
-                        <th scope="col">Balloon Name</th>
-                        <th scope="col">Balloon Type</th>
-                        <th scope="col">Description</th>
-                        <th scope="col">Manufacturer</th>
-                        <th scope="col">Actions</th>
-                    </tr>
-                    </thead>
-
-                    <tbody>
-                    <tr th:each="balloon : ${balloons}">
-                        <td th:text="${balloon.getName()}"></td>
-                        <td th:text="${balloon.getType()}"></td>
-                        <td th:text="${balloon.getDescription()}"></td>
-                        <td th:text="${balloon.getManufacturer().getName()}"></td>
-                        <td class="text-right">
-                            <div class="container">
-                                <div class="row">
-                                    <form class="px-2" th:method="get"
-                                          th:action="@{/balloons/delete/{id} (id=${balloon.getId()})}">
-                                        <button type="submit" class="btn btn-sm btn-danger">
-                                            <i class="fas fa-trash"></i> Delete
-                                        </button>
-                                    </form>
+                                        <a class="px-2 btn btn-sm btn-primary"
+                                           th:href="@{'/balloons/edit-form/{id}' (id=${balloon.getId()})}"> <i
+                                                class="fas fa-edit"></i> Edit
+                                        </a>
 
 
-                                    <a class="px-2 btn btn-sm btn-primary"
-                                       th:href="@{'/balloons/edit-form/{id}' (id=${balloon.getId()})}"> <i
-                                            class="fas fa-edit"></i> Edit
-                                    </a>
-
-
-                                    <form class="px-2" th:method="post"
-                                          th:action="@{'/shopping-cart/add-balloon/{id}' (id=${balloon.getId()})}">
-                                        <button type="submit" class="btn btn-sm btn-success">
-                                            <i class="fas fa-cart-plus"></i> Add to cart
-                                        </button>
-                                    </form>
+                                        <form class="px-2" th:method="post"
+                                              th:action="@{'/shopping-cart/add-balloon/{id}' (id=${balloon.getId()})}">
+                                            <button type="submit" class="btn btn-sm btn-success">
+                                                <i class="fas fa-cart-plus"></i> Add to cart
+                                            </button>
+                                        </form>
+                                    </div>
                                 </div>
-                            </div>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
-</div>
-
-
-</body>
-
-<div th:replace="fragments/footer :: footer">...</div>
-
-</html>
+</th:block>

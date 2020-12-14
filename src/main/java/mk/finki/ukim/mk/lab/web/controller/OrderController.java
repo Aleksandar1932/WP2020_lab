@@ -36,7 +36,9 @@ public class OrderController {
         }
 
         model.addAttribute("balloons", balloons);
-        return "order-details";
+
+        model.addAttribute("bodyContent", "order-details");
+        return "master-template";
     }
 
     @PostMapping("/place")
@@ -68,6 +70,9 @@ public class OrderController {
 
         model.addAttribute("orders", placedOrders);
 
-        return "orders-placed";
+
+        model.addAttribute("bodyContent", "orders-placed");
+        return "master-template";
+
     }
 }

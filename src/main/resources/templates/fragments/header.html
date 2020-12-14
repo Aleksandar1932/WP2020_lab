@@ -1,0 +1,37 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="/balloons">Balloon Shop</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02"
+            aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+        <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+
+            <li class="nav-item">
+                <a class="nav-link" href="/balloons">Home </a>
+            </li>
+
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Balloons
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="/balloons">View All</a>
+                    <a class="dropdown-item" href="/balloons/add-form">Add new balloon</a>
+                </div>
+            </li>
+        </ul>
+
+        <div th:replace="fragments/my-orders-button :: my-orders-button"></div>
+
+        <div th:replace="fragments/shopping-cart-button :: shopping-cart-button"></div>
+
+        <th:block th:if="${#request.getRemoteUser() != null}">
+            <a class="btn btn-light btn-sm ml-3" href="/logout">
+                <i class="fas fa-sign-out-alt"></i></i> Logout
+            </a>
+        </th:block>
+    </div>
+</nav>
