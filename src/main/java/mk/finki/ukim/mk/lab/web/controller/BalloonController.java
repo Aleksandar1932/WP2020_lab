@@ -5,6 +5,7 @@ import mk.finki.ukim.mk.lab.model.Manufacturer;
 import mk.finki.ukim.mk.lab.model.enumerations.BalloonType;
 import mk.finki.ukim.mk.lab.service.BalloonService;
 import mk.finki.ukim.mk.lab.service.ManufacturerService;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -77,6 +78,7 @@ public class BalloonController {
         return "master-template";
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/edit-form/{id}")
     public String addBalloonPage(@PathVariable Long id, Model model) {
 
@@ -96,6 +98,7 @@ public class BalloonController {
     }
 
     // TODO: WHY DELETE DOESN"T WORK
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/delete/{id}")
     public String deleteBalloon(@PathVariable Long id) {
         this.balloonService.deleteById(id);

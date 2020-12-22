@@ -19,7 +19,9 @@
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                     <a class="dropdown-item" href="/balloons">View All</a>
+                    <th:block sec:authorize="hasRole('ROLE_ADMIN')">
                     <a class="dropdown-item" href="/balloons/add-form">Add new balloon</a>
+                    </th:block>
                 </div>
             </li>
         </ul>
@@ -27,6 +29,12 @@
         <div th:replace="fragments/my-orders-button :: my-orders-button"></div>
 
         <div th:replace="fragments/shopping-cart-button :: shopping-cart-button"></div>
+
+        <th:block sec:authorize="!isAuthenticated()">
+            <a class="btn btn-light btn-sm ml-3" href="/logout">
+                <i class="fas fa-sign-in-alt"></i></i> Login
+            </a>
+        </th:block>
 
         <th:block th:if="${#request.getRemoteUser() != null}">
             <a class="btn btn-light btn-sm ml-3" href="/logout">

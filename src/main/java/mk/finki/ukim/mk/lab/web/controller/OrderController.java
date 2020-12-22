@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 
@@ -26,9 +27,9 @@ public class OrderController {
     }
 
     @GetMapping("/place")
-    public String placeOrder(Model model, HttpSession session) {
-        User currentUser = (User) session.getAttribute("user");
-        List<Balloon> balloons = shoppingCartService.getAllBalloonsInUserActiveShoppingCard(currentUser.getUsername());
+    public String placeOrder(Model model, HttpSession session, HttpServletRequest req) {
+        String username = req.getRemoteUser();
+        List<Balloon> balloons = shoppingCartService.getAllBalloonsInUserActiveShoppingCard(username);
 
         if (balloons.isEmpty() || balloons == null) {
             model.addAttribute("hasError", true);
@@ -42,9 +43,9 @@ public class OrderController {
     }
 
     @PostMapping("/place")
-    public String makeOrder(@RequestParam String deliveryAddress, HttpSession session, Model model) {
-        User currentUser = (User) session.getAttribute("user");
-        List<Balloon> balloons = shoppingCartService.getAllBalloonsInUserActiveShoppingCard(currentUser.getUsername());
+    public String makeOrder(@RequestParam String deliveryAddress, HttpSession session, Model model, HttpServletRequest req) {
+        String username = req.getRemoteUser();
+        List<Balloon> balloons = shoppingCartService.getAllBalloonsInUserActiveShoppingCard(username);
 
 
         if (balloons.isEmpty() || balloons == null) {
@@ -52,16 +53,16 @@ public class OrderController {
             return "redirect:/balloons?error=NoBalloonsToOrder";
         }
 
-        orderService.placeOrder(currentUser, deliveryAddress, balloons);
+        orderService.placeOrder(username, deliveryAddress, balloons);
 
         return "redirect:/balloons";
     }
 
     @GetMapping("/placed")
-    public String getPlacedOrdersForCurrentUser(HttpSession session, Model model) {
-        User currentUser = (User) session.getAttribute("user");
+    public String getPlacedOrdersForCurrentUser(HttpSession session, Model model, HttpServletRequest req) {
+        String username = req.getRemoteUser();
 
-        List<Order> placedOrders = orderService.getPlacedOrdersForUser(currentUser);
+        List<Order> placedOrders = orderService.getPlacedOrdersForUser(username);
 
         if (placedOrders.isEmpty()) {
             model.addAttribute("hasError", true);

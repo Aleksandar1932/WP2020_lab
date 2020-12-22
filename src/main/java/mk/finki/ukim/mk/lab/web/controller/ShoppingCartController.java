@@ -7,7 +7,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.net.http.HttpRequest;
+import java.security.Principal;
 
 @Controller
 @RequestMapping("/shopping-cart")
@@ -22,13 +26,14 @@ public class ShoppingCartController {
     @GetMapping
     public String getShoppingCartPage(@RequestParam(required = false) String error,
                                       HttpSession session,
+                                      HttpServletRequest req,
                                       Model model) {
         if (error != null && !error.isEmpty()) {
             model.addAttribute("hasError", true);
             model.addAttribute("error", error);
         }
-        User user = (User) session.getAttribute("user");
-        ShoppingCart shoppingCart = this.shoppingCartService.getActiveShoppingCart(user.getUsername());
+        String username = req.getRemoteUser();
+        ShoppingCart shoppingCart = this.shoppingCartService.getActiveShoppingCart(username);
         model.addAttribute("balloons", this.shoppingCartService.listAllBalloonsInShoppingCart(shoppingCart.getId()));
 
         model.addAttribute("bodyContent", "shopping-cart");
@@ -37,10 +42,10 @@ public class ShoppingCartController {
 
 
     @PostMapping("/add-balloon/{id}")
-    public String addBalloonToShoppingCart(@PathVariable Long id, HttpSession session) {
+    public String addBalloonToShoppingCart(@PathVariable Long id, HttpSession session, HttpServletRequest req) {
         try {
-            User user = (User) session.getAttribute("user");
-            ShoppingCart shoppingCart = this.shoppingCartService.addBalloonToShoppingCart(user.getUsername(), id);
+            String username = req.getRemoteUser();
+            ShoppingCart shoppingCart = this.shoppingCartService.addBalloonToShoppingCart(username, id);
 
             return "redirect:/balloons";
         } catch (RuntimeException exception) {
@@ -49,10 +54,10 @@ public class ShoppingCartController {
     }
 
     @PostMapping("/remove-balloon/{id}")
-    public String removeBalloonFromShoppingCart(@PathVariable Long id, HttpSession session) {
+    public String removeBalloonFromShoppingCart(@PathVariable Long id, HttpSession session, HttpServletRequest req) {
         try {
-            User user = (User) session.getAttribute("user");
-            ShoppingCart shoppingCart = this.shoppingCartService.removeBalloonFromShoppingCart(user.getUsername(), id);
+            String username = req.getRemoteUser();
+            ShoppingCart shoppingCart = this.shoppingCartService.removeBalloonFromShoppingCart(username, id);
 
             return "redirect:/shopping-cart";
         } catch (RuntimeException exception) {

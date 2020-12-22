@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface OrderService {
 
-    Order placeOrder(User user, String deliveryAddress, List<Balloon> balloons);
+    Order placeOrder(String username, String deliveryAddress, List<Balloon> balloons);
 
-    List<Order> getPlacedOrdersForUser(User user);
+    List<Order> getPlacedOrdersForUser(String username);
 }
