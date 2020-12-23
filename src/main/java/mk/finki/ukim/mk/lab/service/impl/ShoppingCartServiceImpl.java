@@ -14,9 +14,7 @@ import mk.finki.ukim.mk.lab.service.BalloonService;
 import mk.finki.ukim.mk.lab.service.ShoppingCartService;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class ShoppingCartServiceImpl implements ShoppingCartService {
@@ -34,9 +32,9 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 
     @Override
     public List<Balloon> listAllBalloonsInShoppingCart(Long cartId) {
-        if (!this.shoppingCartRepository.findById(cartId).isPresent())
-            throw new ShoppingCartNotFoundException(cartId);
-        return this.shoppingCartRepository.findById(cartId).get().getBalloons();
+        return this.shoppingCartRepository.findById(cartId)
+                .orElseThrow(() -> new ShoppingCartNotFoundException(cartId))
+                .getBalloons();
     }
 
     @Override
@@ -69,6 +67,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     @Override
     public void changeStatusToFinishedOfActiveShoppingCart(String username) {
         ShoppingCart activeShoppingCart = this.getActiveShoppingCart(username);
+
         activeShoppingCart.setStatus(ShoppingCartStatus.FINISHED);
         shoppingCartRepository.save(activeShoppingCart);
     }

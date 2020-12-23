@@ -3,18 +3,13 @@ package mk.finki.ukim.mk.lab.service.impl;
 import mk.finki.ukim.mk.lab.model.Balloon;
 import mk.finki.ukim.mk.lab.model.Manufacturer;
 import mk.finki.ukim.mk.lab.model.enumerations.BalloonType;
-import mk.finki.ukim.mk.lab.model.exceptions.BalloonNotFoundException;
-import mk.finki.ukim.mk.lab.model.exceptions.InvalidSearchTextException;
-import mk.finki.ukim.mk.lab.model.exceptions.ManufacturerNotFoundException;
-import mk.finki.ukim.mk.lab.repository.impl.InMemoryBalloonRepository;
-import mk.finki.ukim.mk.lab.repository.impl.InMemoryManufacturerRepository;
+import mk.finki.ukim.mk.lab.model.exceptions.*;
 import mk.finki.ukim.mk.lab.repository.jpa.BalloonRepository;
 import mk.finki.ukim.mk.lab.repository.jpa.ManufacturerRepository;
 import mk.finki.ukim.mk.lab.service.BalloonService;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -53,13 +48,23 @@ public class BalloonServiceImpl implements BalloonService {
             balloonRepository.deleteById(balloonToUpdateId);
         }
 
+        if (name.isEmpty()) {
+            throw new InvalidBalloonNameException();
+        }
+        if (description.isEmpty()) {
+            throw new InvalidBalloonDescriptionException();
+        }
+        if (type == null) {
+            throw new InvalidBalloonTypeException();
+        }
+
         return Optional.of(this.balloonRepository.save(b));
     }
 
     @Override
     public List<Balloon> searchByNameOrDescription(String text) {
         if (text == null || text.isEmpty()) {
-            throw new IllegalArgumentException();
+            throw new InvalidSearchTextException();
         }
 
         return balloonRepository.findAllByNameOrDescription(text, text);
@@ -76,7 +81,7 @@ public class BalloonServiceImpl implements BalloonService {
 
     @Override
     public Optional<Balloon> findById(Long id) {
-        return balloonRepository.findById(id);
+        return Optional.of(balloonRepository.findById(id).orElseThrow(() -> new BalloonNotFoundException(id)));
     }
 
     @Override

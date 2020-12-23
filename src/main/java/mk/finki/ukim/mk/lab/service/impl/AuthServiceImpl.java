@@ -3,8 +3,6 @@ package mk.finki.ukim.mk.lab.service.impl;
 import mk.finki.ukim.mk.lab.model.User;
 import mk.finki.ukim.mk.lab.model.exceptions.InvalidArgumentsException;
 import mk.finki.ukim.mk.lab.model.exceptions.InvalidUserCredentialsException;
-import mk.finki.ukim.mk.lab.model.exceptions.PasswordsDoNotMatchException;
-import mk.finki.ukim.mk.lab.model.exceptions.UsernameExistsException;
 import mk.finki.ukim.mk.lab.repository.jpa.UserRepository;
 import mk.finki.ukim.mk.lab.service.AuthService;
 import org.springframework.stereotype.Service;
@@ -26,6 +24,4 @@ public class AuthServiceImpl implements AuthService {
         }
         return userRepository.findByUsernameAndPassword(username, password).orElseThrow(InvalidUserCredentialsException::new);
     }
-
-
 }
