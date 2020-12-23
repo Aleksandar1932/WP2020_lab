@@ -53,7 +53,7 @@
                         </thead>
 
                         <tbody>
-                        <tr th:each="balloon : ${balloons}">
+                        <tr class="balloon-row" th:each="balloon : ${balloons}">
                             <td th:text="${balloon.getName()}"></td>
                             <td th:text="${balloon.getType()}"></td>
                             <td th:text="${balloon.getDescription()}"></td>
@@ -67,14 +67,14 @@
                                                 <form class="px-2"
                                                       th:action="@{/balloons/delete/{id} (id=${balloon.getId()})}"
                                                       th:method="get">
-                                                    <button class="btn btn-sm btn-danger" type="submit">
+                                                    <button class="btn btn-sm btn-danger delete-balloon" type="submit">
                                                         <i class="fas fa-trash"></i> Delete
                                                     </button>
                                                 </form>
                                             </th:block>
 
                                             <th:block sec:authorize="hasRole('ROLE_ADMIN')">
-                                                <a class="px-2 btn btn-sm btn-primary"
+                                                <a class="px-2 btn btn-sm btn-primary edit-balloon"
                                                    th:href="@{'/balloons/edit-form/{id}' (id=${balloon.getId()})}"> <i
                                                         class="fas fa-edit"></i> Edit
                                                 </a>
@@ -84,7 +84,8 @@
                                                 <form class="px-2"
                                                       th:action="@{'/shopping-cart/add-balloon/{id}' (id=${balloon.getId()})}"
                                                       th:method="post">
-                                                    <button class="btn btn-sm btn-success" type="submit">
+                                                    <button class="btn btn-sm btn-success add-to-cart-balloon"
+                                                            type="submit">
                                                         <i class="fas fa-cart-plus"></i> Add to cart
                                                     </button>
                                                 </form>
