@@ -2,17 +2,16 @@ package mk.finki.ukim.mk.lab.web.controller;
 
 import mk.finki.ukim.mk.lab.model.Balloon;
 import mk.finki.ukim.mk.lab.model.Order;
-import mk.finki.ukim.mk.lab.model.ShoppingCart;
-import mk.finki.ukim.mk.lab.model.User;
-import mk.finki.ukim.mk.lab.service.BalloonService;
 import mk.finki.ukim.mk.lab.service.OrderService;
 import mk.finki.ukim.mk.lab.service.ShoppingCartService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Controller
@@ -27,11 +26,11 @@ public class OrderController {
     }
 
     @GetMapping("/place")
-    public String placeOrder(Model model, HttpSession session, HttpServletRequest req) {
+    public String placeOrder(Model model, HttpServletRequest req) {
         String username = req.getRemoteUser();
         List<Balloon> balloons = shoppingCartService.getAllBalloonsInUserActiveShoppingCard(username);
 
-        if (balloons.isEmpty() || balloons == null) {
+        if (balloons.isEmpty()) {
             model.addAttribute("hasError", true);
             return "redirect:/balloons?error=NoBalloonsToOrder";
         }
@@ -43,12 +42,12 @@ public class OrderController {
     }
 
     @PostMapping("/place")
-    public String makeOrder(@RequestParam String deliveryAddress, HttpSession session, Model model, HttpServletRequest req) {
+    public String makeOrder(@RequestParam String deliveryAddress, Model model, HttpServletRequest req) {
         String username = req.getRemoteUser();
         List<Balloon> balloons = shoppingCartService.getAllBalloonsInUserActiveShoppingCard(username);
 
 
-        if (balloons.isEmpty() || balloons == null) {
+        if (balloons.isEmpty()) {
             model.addAttribute("hasError", true);
             return "redirect:/balloons?error=NoBalloonsToOrder";
         }
@@ -59,7 +58,7 @@ public class OrderController {
     }
 
     @GetMapping("/placed")
-    public String getPlacedOrdersForCurrentUser(HttpSession session, Model model, HttpServletRequest req) {
+    public String getPlacedOrdersForCurrentUser(Model model, HttpServletRequest req) {
         String username = req.getRemoteUser();
 
         List<Order> placedOrders = orderService.getPlacedOrdersForUser(username);

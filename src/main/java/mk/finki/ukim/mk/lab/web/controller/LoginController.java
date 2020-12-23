@@ -22,15 +22,14 @@ public class LoginController {
     }
 
     @GetMapping
-    public String getLoginPage(Model model)
-    {
+    public String getLoginPage(Model model) {
         model.addAttribute("bodyContent", "login");
         return "master-template";
     }
 
     @PostMapping
     public String login(HttpServletRequest request, Model model) {
-        User user = null;
+        User user;
 
         try {
             user = authService.login(request.getParameter("username"), request.getParameter("password"));

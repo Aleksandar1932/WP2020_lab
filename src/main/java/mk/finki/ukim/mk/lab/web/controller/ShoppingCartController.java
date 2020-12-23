@@ -1,17 +1,12 @@
 package mk.finki.ukim.mk.lab.web.controller;
 
 import mk.finki.ukim.mk.lab.model.ShoppingCart;
-import mk.finki.ukim.mk.lab.model.User;
 import mk.finki.ukim.mk.lab.service.ShoppingCartService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-import java.net.http.HttpRequest;
-import java.security.Principal;
 
 @Controller
 @RequestMapping("/shopping-cart")
@@ -25,7 +20,6 @@ public class ShoppingCartController {
 
     @GetMapping
     public String getShoppingCartPage(@RequestParam(required = false) String error,
-                                      HttpSession session,
                                       HttpServletRequest req,
                                       Model model) {
         if (error != null && !error.isEmpty()) {
@@ -42,10 +36,10 @@ public class ShoppingCartController {
 
 
     @PostMapping("/add-balloon/{id}")
-    public String addBalloonToShoppingCart(@PathVariable Long id, HttpSession session, HttpServletRequest req) {
+    public String addBalloonToShoppingCart(@PathVariable Long id, HttpServletRequest req) {
         try {
             String username = req.getRemoteUser();
-            ShoppingCart shoppingCart = this.shoppingCartService.addBalloonToShoppingCart(username, id);
+            this.shoppingCartService.addBalloonToShoppingCart(username, id);
 
             return "redirect:/balloons";
         } catch (RuntimeException exception) {
@@ -54,10 +48,10 @@ public class ShoppingCartController {
     }
 
     @PostMapping("/remove-balloon/{id}")
-    public String removeBalloonFromShoppingCart(@PathVariable Long id, HttpSession session, HttpServletRequest req) {
+    public String removeBalloonFromShoppingCart(@PathVariable Long id, HttpServletRequest req) {
         try {
             String username = req.getRemoteUser();
-            ShoppingCart shoppingCart = this.shoppingCartService.removeBalloonFromShoppingCart(username, id);
+            this.shoppingCartService.removeBalloonFromShoppingCart(username, id);
 
             return "redirect:/shopping-cart";
         } catch (RuntimeException exception) {

@@ -10,11 +10,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @Controller
-@RequestMapping("/balloons")
+@RequestMapping(value = {"/balloons", "/"})
 public class BalloonController {
     private final BalloonService balloonService;
     private final ManufacturerService manufacturerService;
@@ -25,7 +24,10 @@ public class BalloonController {
     }
 
     @GetMapping
-    public String getBalloonsPage(@RequestParam(required = false) String error, @RequestParam(required = false) String filterBy, Model model, HttpServletRequest request) {
+    public String getBalloonsPage(
+            @RequestParam(required = false) String error,
+            @RequestParam(required = false) String filterBy,
+            Model model) {
         if (error != null && !error.isEmpty()) {
             model.addAttribute("hasError", true);
             model.addAttribute("error", error);
@@ -108,6 +110,9 @@ public class BalloonController {
 
     @PostMapping("/find")
     public String findAllByText(@RequestParam String text, Model model) {
+        if (text.isEmpty()) {
+            return "redirect:/balloons";
+        }
         List<Balloon> balloons = this.balloonService.findAllByText(text);
 
         model.addAttribute("balloons", balloons);
