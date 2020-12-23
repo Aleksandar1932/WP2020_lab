@@ -6,8 +6,7 @@
     <div class="container">
         <div class="row justify-content-md-center">
             <div class="col-md-10">
-                <div class="row">
-                    <h5 class="mx-1">Filter by Balloon Type: </h5>
+                <div class="row" th:if="${balloons.size() != 0}">
                     <form class="form-inline mx-1" action="/balloons" method="GET">
                         <div class="form-group">
                             <select id="typeToSort" name="filterBy" class="form-control">
@@ -22,30 +21,24 @@
 
                     </form>
 
-
-                </div>
-                <br>
-                <div class="row">
-                    <h5 class="mx-1">Search by text: </h5>
-                    <form th:method="post" action="/balloons/find" class="form-inline mx-1">
+                    <form action="/balloons/find" class="form-inline mx-1" th:method="post">
                         <div class="form-group">
-                            <input type="text" name="text" id="text">
+                            <input id="text" name="text" type="text">
                         </div>
 
 
-                        <button class="btn btn-primary" type="submit">Search</button>
+                        <button class="btn btn-primary mx-2" type="submit">Search</button>
                     </form>
+
+                    <a class="btn btn-danger" href="/balloons" type="submit"><i class="fas fa-eraser"></i> Clear</a>
+
                 </div>
-
-                <a class="btn btn-danger" href="/balloons" type="submit"><i class="fas fa-eraser"></i> Clear</a>
-
-                <br>
 
                 <div class="row" th:if="${hasError}">
                     <div th:text="${error}" class="text-danger"></div>
                 </div>
                 <br>
-                <div class="row table-responsive">
+                <div class="row table-responsive" th:if="${balloons.size() != 0}">
                     <table class="table table-striped">
                         <thead>
                         <tr>
@@ -66,41 +59,47 @@
                             <td th:text="${balloon.getDescription()}"></td>
                             <td th:text="${balloon.getManufacturer().getName()}"></td>
                             <th:block sec:authorize="isAuthenticated()">
-                            <td class="text-right">
-                                <div class="container">
-                                    <div class="row">
+                                <td class="text-right">
+                                    <div class="container">
+                                        <div class="row">
 
-                                        <th:block sec:authorize="hasRole('ROLE_ADMIN')">
-                                            <form class="px-2" th:method="get"
-                                                  th:action="@{/balloons/delete/{id} (id=${balloon.getId()})}">
-                                                <button type="submit" class="btn btn-sm btn-danger">
-                                                    <i class="fas fa-trash"></i> Delete
-                                                </button>
-                                            </form>
-                                        </th:block>
+                                            <th:block sec:authorize="hasRole('ROLE_ADMIN')">
+                                                <form class="px-2"
+                                                      th:action="@{/balloons/delete/{id} (id=${balloon.getId()})}"
+                                                      th:method="get">
+                                                    <button class="btn btn-sm btn-danger" type="submit">
+                                                        <i class="fas fa-trash"></i> Delete
+                                                    </button>
+                                                </form>
+                                            </th:block>
 
-                                        <th:block sec:authorize="hasRole('ROLE_ADMIN')">
-                                            <a class="px-2 btn btn-sm btn-primary"
-                                               th:href="@{'/balloons/edit-form/{id}' (id=${balloon.getId()})}"> <i
-                                                    class="fas fa-edit"></i> Edit
-                                            </a>
-                                        </th:block>
+                                            <th:block sec:authorize="hasRole('ROLE_ADMIN')">
+                                                <a class="px-2 btn btn-sm btn-primary"
+                                                   th:href="@{'/balloons/edit-form/{id}' (id=${balloon.getId()})}"> <i
+                                                        class="fas fa-edit"></i> Edit
+                                                </a>
+                                            </th:block>
 
-                                        <th:block sec:authorize="isAuthenticated()">
-                                            <form class="px-2" th:method="post"
-                                                  th:action="@{'/shopping-cart/add-balloon/{id}' (id=${balloon.getId()})}">
-                                                <button type="submit" class="btn btn-sm btn-success">
-                                                    <i class="fas fa-cart-plus"></i> Add to cart
-                                                </button>
-                                            </form>
-                                        </th:block>
+                                            <th:block sec:authorize="isAuthenticated()">
+                                                <form class="px-2"
+                                                      th:action="@{'/shopping-cart/add-balloon/{id}' (id=${balloon.getId()})}"
+                                                      th:method="post">
+                                                    <button class="btn btn-sm btn-success" type="submit">
+                                                        <i class="fas fa-cart-plus"></i> Add to cart
+                                                    </button>
+                                                </form>
+                                            </th:block>
+                                        </div>
                                     </div>
-                                </div>
-                            </td>
+                                </td>
                             </th:block>
                         </tr>
                         </tbody>
                     </table>
+                </div>
+
+                <div class="alert alert-primary" role="alert" th:if="${balloons.size() == 0}">
+                    Currently, there aren't any balloons offered in the shop.
                 </div>
             </div>
         </div>
