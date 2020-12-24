@@ -2,6 +2,7 @@ package mk.finki.ukim.mk.lab.web.controller;
 
 import mk.finki.ukim.mk.lab.model.ShoppingCart;
 import mk.finki.ukim.mk.lab.service.ShoppingCartService;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -18,6 +19,7 @@ public class ShoppingCartController {
         this.shoppingCartService = shoppingCartService;
     }
 
+    @PreAuthorize("isAuthenticated()")
     @GetMapping
     public String getShoppingCartPage(@RequestParam(required = false) String error,
                                       HttpServletRequest req,
@@ -35,6 +37,7 @@ public class ShoppingCartController {
     }
 
 
+    @PreAuthorize("isAuthenticated()")
     @PostMapping("/add-balloon/{id}")
     public String addBalloonToShoppingCart(@PathVariable Long id, HttpServletRequest req) {
         try {
@@ -47,6 +50,7 @@ public class ShoppingCartController {
         }
     }
 
+    @PreAuthorize("isAuthenticated()")
     @PostMapping("/remove-balloon/{id}")
     public String removeBalloonFromShoppingCart(@PathVariable Long id, HttpServletRequest req) {
         try {

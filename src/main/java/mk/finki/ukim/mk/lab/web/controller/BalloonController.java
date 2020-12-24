@@ -52,6 +52,7 @@ public class BalloonController {
     }
 
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping("/add")
     public String saveBalloon(
             @RequestParam String name,
@@ -69,6 +70,7 @@ public class BalloonController {
     }
 
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/add-form")
     public String addBalloonPage(Model model) {
         List<Manufacturer> manufacturers = this.manufacturerService.findAll();

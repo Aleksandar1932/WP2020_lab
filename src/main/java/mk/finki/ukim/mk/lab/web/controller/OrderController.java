@@ -4,6 +4,7 @@ import mk.finki.ukim.mk.lab.model.Balloon;
 import mk.finki.ukim.mk.lab.model.Order;
 import mk.finki.ukim.mk.lab.service.OrderService;
 import mk.finki.ukim.mk.lab.service.ShoppingCartService;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,6 +26,7 @@ public class OrderController {
         this.shoppingCartService = shoppingCartService;
     }
 
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/place")
     public String placeOrder(Model model, HttpServletRequest req) {
         String username = req.getRemoteUser();
@@ -41,6 +43,7 @@ public class OrderController {
         return "master-template";
     }
 
+    @PreAuthorize("isAuthenticated()")
     @PostMapping("/place")
     public String makeOrder(@RequestParam String deliveryAddress, Model model, HttpServletRequest req) {
         String username = req.getRemoteUser();
@@ -57,6 +60,7 @@ public class OrderController {
         return "redirect:/balloons";
     }
 
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/placed")
     public String getPlacedOrdersForCurrentUser(Model model, HttpServletRequest req) {
         String username = req.getRemoteUser();
