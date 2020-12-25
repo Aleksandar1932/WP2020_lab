@@ -38,4 +38,8 @@ public class BalloonsPage extends AbstractPage {
         Assert.assertEquals("The number of add balloon to cart buttons doesn't match", addBalloonToCartButtons, addBalloonToCartButton.size());
 
     }
+
+    public void clickAddToCartButton(int buttonNumber) {
+        this.addBalloonToCartButton.get(buttonNumber).click();
+    }
 }

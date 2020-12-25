@@ -27,7 +27,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr th:each="balloon : ${balloons}">
+                        <tr class="balloon-row" th:each="balloon : ${balloons}">
                             <td th:text="${balloon.getName()}"></td>
                             <td th:text="${balloon.getDescription()}"></td>
                             <td th:text="${balloon.getManufacturer() != null} ? ${balloon.getManufacturer().getName()} : 'No Manufacturer'"></td>
@@ -35,7 +35,7 @@
                             <td class="text-left">
                                 <form class="px-2" th:method="post"
                                       th:action="@{/shopping-cart/remove-balloon/{id} (id=${balloon.getId()})}">
-                                    <button type="submit" class="btn btn-sm btn-danger">
+                                    <button class="btn btn-sm btn-danger delete-balloon" type="submit">
                                         <i class="fas fa-trash"></i>
                                     </button>
                                 </form>
@@ -48,7 +48,7 @@
                 <div class="col mb-3">
                     <div class="row">
                         <div class="col-sm 12 col-md-12">
-                            <a href="/order/place" class="btn btn-block btn-dark">Place Order</a>
+                            <a class="btn btn-block btn-dark place-order-button" href="/order/place">Place Order</a>
                         </div>
                     </div>
                 </div>
@@ -57,7 +57,7 @@
             <div class="col-12" th:if="${balloons.size() == 0}">
                 Your shopping cart is empty.
 
-                <a href="/balloons" class="btn btn-success">Shop for balloons</a>
+                <a class="btn btn-success shop-for-balloons-button" href="/balloons">Shop for balloons</a>
             </div>
         </div>
     </div>

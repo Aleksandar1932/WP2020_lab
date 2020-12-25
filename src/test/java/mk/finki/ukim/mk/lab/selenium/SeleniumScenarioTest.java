@@ -1,11 +1,14 @@
 package mk.finki.ukim.mk.lab.selenium;
 
 import mk.finki.ukim.mk.lab.model.Manufacturer;
+import mk.finki.ukim.mk.lab.model.ShoppingCart;
 import mk.finki.ukim.mk.lab.model.User;
 import mk.finki.ukim.mk.lab.model.enumerations.BalloonType;
 import mk.finki.ukim.mk.lab.model.enumerations.Role;
+import mk.finki.ukim.mk.lab.repository.jpa.ShoppingCartRepository;
 import mk.finki.ukim.mk.lab.service.BalloonService;
 import mk.finki.ukim.mk.lab.service.ManufacturerService;
+import mk.finki.ukim.mk.lab.service.ShoppingCartService;
 import mk.finki.ukim.mk.lab.service.UserService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -32,6 +35,11 @@ public class SeleniumScenarioTest {
     BalloonService balloonService;
     @Autowired
     ManufacturerService manufacturerService;
+    @Autowired
+    ShoppingCartRepository shoppingCartRepository;
+    @Autowired
+    ShoppingCartService shoppingCartService;
+
     private WebDriver driver;
 
     @BeforeEach
@@ -49,6 +57,10 @@ public class SeleniumScenarioTest {
         }
 
         if (!balloonService.listAll().isEmpty()) {
+            if (!shoppingCartRepository.findAll().isEmpty()) {
+                ShoppingCart shoppingCart = shoppingCartService.getActiveShoppingCart(regularUser.getUsername());
+                shoppingCartRepository.delete(shoppingCart);
+            }
 
             balloonService.deleteById(balloonService.listAll().get(0).getId());
         }
@@ -93,5 +105,27 @@ public class SeleniumScenarioTest {
 
         balloonsPage = BalloonsPage.to(this.driver);
         balloonsPage.assertElements(1, 0, 0, 1);
+    }
+
+    @Test
+    public void testEmptyShoppingCartPageRegularUser() {
+        LoginPage loginPage = LoginPage.openLogin(this.driver);
+        BalloonsPage balloonsPage = LoginPage.doLogin(this.driver, loginPage, regularUser.getUsername(), user);
+        ShoppingCartPage shoppingCartPage = ShoppingCartPage.to(this.driver);
+
+        shoppingCartPage.assertElements(0, 0, 0, 1);
+    }
+
+    @Test
+    public void testNotEmptyShoppingCartPageRegularUser() {
+        balloonService.save("test", "test", m1.getId(), BalloonType.HEART, null);
+        LoginPage loginPage = LoginPage.openLogin(this.driver);
+        BalloonsPage balloonsPage = LoginPage.doLogin(this.driver, loginPage, regularUser.getUsername(), user);
+        balloonsPage.assertElements(1, 0, 0, 1);
+        balloonsPage.clickAddToCartButton(0);
+
+        ShoppingCartPage shoppingCartPage = ShoppingCartPage.to(this.driver);
+        shoppingCartPage.assertElements(1, 1, 1, 0);
+
     }
 }
