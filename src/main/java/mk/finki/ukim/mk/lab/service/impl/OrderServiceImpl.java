@@ -49,4 +49,9 @@ public class OrderServiceImpl implements OrderService {
         User user = userRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException(username));
         return orderRepository.findAllByUser(user);
     }
+
+    @Override
+    public Integer countAll(String username) {
+        return this.orderRepository.countAllByUserName(username);
+    }
 }

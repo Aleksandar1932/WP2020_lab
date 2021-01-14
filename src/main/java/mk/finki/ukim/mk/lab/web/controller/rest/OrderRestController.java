@@ -1,27 +1,24 @@
 package mk.finki.ukim.mk.lab.web.controller.rest;
 
-import mk.finki.ukim.mk.lab.model.Order;
-import mk.finki.ukim.mk.lab.model.User;
-import mk.finki.ukim.mk.lab.repository.jpa.OrderRepository;
+import mk.finki.ukim.mk.lab.service.OrderService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
+import java.security.Principal;
 
 @RestController
 @RequestMapping("/api/order")
 public class OrderRestController {
-    private final OrderRepository orderRepository;
+    private final OrderService orderService;
 
-    public OrderRestController(OrderRepository orderRepository) {
-        this.orderRepository = orderRepository;
+    public OrderRestController(OrderService orderService) {
+        this.orderService = orderService;
     }
 
     @GetMapping("/total")
-    Integer getNumberOfOrdersForCurrentUser(HttpServletRequest req) {
-       String username = req.getRemoteUser();
-        return orderRepository.findAllByUserName(username).size();
+    Integer getNumberOfOrdersForCurrentUser(Principal principal) {
+        String username = principal.getName();
+        return orderService.countAll(username);
     }
 }
