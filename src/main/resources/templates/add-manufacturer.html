@@ -1,0 +1,50 @@
+<th:block xmlns:th="http://www.thymeleaf.org">
+    <div class="jumbotron text-center" th:if="${manufacturer} == null">
+        <h1>Add New Manufacturer</h1>
+    </div>
+
+    <div class="jumbotron text-center" th:if="${manufacturer} != null">
+        <h1>Edit an existing Manufacturer</h1>
+    </div>
+
+    <div class="container">
+        <div class="row justify-content-md-center">
+            <div class="col-md-6">
+                <form action="/manufacturers/add" method="POST">
+                    <div class="form-group">
+                        <label for="name">Manufacturer Name</label>
+
+                        <input class="form-control" id="name" name="name" placeholder="Enter the manufacturer's name"
+                               required
+                               th:value="(${manufacturer != null}) ? ${manufacturer.getName()} : ''"
+                               type="text">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="address">Manufacturer Address</label>
+
+                        <input class="form-control" id="address" name="address"
+                               placeholder="Enter the manufacturer's address"
+                               required
+                               th:value="(${manufacturer != null}) ? ${manufacturer.getAddress()} : ''"
+                               type="text">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="country">Manufacturer Country</label>
+
+                        <input class="form-control" id="country" name="country"
+                               placeholder="Enter the manufacturer's country"
+                               required
+                               th:value="(${manufacturer != null}) ? ${manufacturer.getCountry()} : ''"
+                               type="text">
+                    </div>
+
+
+                    <button class="btn btn-primary" name="submit" type="submit">Submit</button>
+                    <a class="btn btn-primary" href="/balloons" type="button">Back</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</th:block>

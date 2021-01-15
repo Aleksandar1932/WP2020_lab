@@ -1,0 +1,71 @@
+<th:block xmlns:th="http://www.thymeleaf.org">
+    <div class="jumbotron text-center">
+        <h1>Manufacturers</h1>
+    </div>
+
+    <div class="container">
+        <div class="row justify-content-md-center">
+            <div class="col-md-10">
+
+                <div class="row" th:if="${hasError}">
+                    <div class="text-danger" th:text="${error}"></div>
+                </div>
+                <br>
+                <div class="row table-responsive" th:if="${manufacturers.size() != 0}">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th scope="col">Name</th>
+                            <th scope="col">Country</th>
+                            <th scope="col">Address</th>
+                            <th:block sec:authorize="isAuthenticated()">
+                                <th scope="col">Actions</th>
+                            </th:block>
+                        </tr>
+                        </thead>
+
+                        <tbody>
+                        <tr class="balloon-row" th:each="manufacturer : ${manufacturers}">
+                            <td th:text="${manufacturer.getName()}"></td>
+                            <td th:text="${manufacturer.getCountry()}"></td>
+                            <td th:text="${manufacturer.getAddress()}"></td>
+                            <th:block sec:authorize="isAuthenticated()">
+                                <td class="text-right">
+                                    <div class="container">
+                                        <div class="row">
+
+                                            <th:block sec:authorize="hasRole('ROLE_ADMIN')">
+                                                <form class="px-2"
+                                                      th:action="@{/manufacturers/delete/{id} (id=${manufacturer.getId()})}"
+                                                      th:method="get">
+                                                    <button class="btn btn-sm btn-danger delete-balloon" type="submit">
+                                                        <i class="fas fa-trash"></i> Delete
+                                                    </button>
+                                                </form>
+                                            </th:block>
+
+                                            <th:block sec:authorize="hasRole('ROLE_ADMIN')">
+                                                <a class="px-2 btn btn-sm btn-primary edit-balloon"
+                                                   th:href="@{'/manufacturers/edit-form/{id}' (id=${manufacturer.getId()})}">
+                                                    <i
+                                                            class="fas fa-edit"></i> Edit
+                                                </a>
+                                            </th:block>
+
+                                        </div>
+                                    </div>
+                                </td>
+                            </th:block>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <a class="btn btn-primary" href="/manufacturers/add-form">Add New Manufacturer</a>
+                </div>
+
+                <div class="alert alert-primary" role="alert" th:if="${manufacturers.size() == 0}">
+                    Currently, there aren't any balloons offered in the shop.
+                </div>
+            </div>
+        </div>
+    </div>
+</th:block>

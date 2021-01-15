@@ -69,7 +69,7 @@ public class SeleniumScenarioTest {
 
     private void initData() {
         if (!dataInitialized) {
-            m1 = manufacturerService.save("Name1", "Country1", "Address1").get();
+            m1 = manufacturerService.save("Name1", "Country1", "Address1", null).get();
 
             regularUser = userService.register(user, user, user, user, user, Role.ROLE_USER);
             adminUser = userService.register(admin, admin, admin, admin, admin, Role.ROLE_ADMIN);

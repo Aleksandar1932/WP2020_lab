@@ -8,6 +8,10 @@ import java.util.Optional;
 public interface ManufacturerService {
     List<Manufacturer> findAll();
 
-    Optional<Manufacturer> save(String name, String country, String address);
+    Optional<Manufacturer> save(String name, String country, String address, Long manufacturerToUpdateId);
+
+    void deleteById(Long id);
+
+    Optional<Manufacturer> findById(Long id);
 
 }
